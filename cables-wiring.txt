@@ -1,0 +1,28 @@
+*************************
+*** Cables and Wiring ***
+*************************
+
+== Default ==
+
+*Interconnection
+
+   Control Board Usb Host <--cable--> Camera: USB A male to USB Mini male
+              PC USB Host <--cable--> Control Board: USB A male to USB Micro male (board programing/camera as external memory)
+          Auto Pilot UART <--cable--> Control Board: DF13 6pin male to DF13 6pin male (crossing RX/TX?)
+
+*Broken Out Pins
+
+   Dedicated Lipo Battery ----><pins> right angle 2 pins 0.1" spaced male pin header
+ 
+== Optional ==
+
+*Interconnection
+
+  Control Board LANC <--cable--> Handycam LANC: DF13 3pin to Sony Lanc (D shape or newest one deppending on the model)
+  Control Board TTL(from LANC pins) to SLR Remote: DF13 3pin to 3 pole P2 plug (usually 2.5mm P2 plug)
+      Auto Pilot i2c <--cable--> Control Board i2c: DF13 4pin male to DF13 4pin male
+
+*Broken Out Pins
+
+  Control Board's extra ditital pins <--cable--> External Devices: DF13 4pin male to DF13 4pin male
+   Control Board's extra analog pins <--cable--> External Devices: DF13 4pin male to DF13 4pin male
