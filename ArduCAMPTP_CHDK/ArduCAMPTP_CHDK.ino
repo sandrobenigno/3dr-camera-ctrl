@@ -4,7 +4,7 @@ Copyright (c) 2011.  All rights reserved.
 An Open Source Arduino based OSD and Camera Control project.
 
 Code : ArduCamPTP_CHDK
-Version : v0.95, 03 aug 2013
+Version : v0.96, 12 feb 2014
 
 Author(s): Sandro Benigno
                   Legacy PTP commands from Canon's PS-ReCSDK 1.1.0e
@@ -39,7 +39,7 @@ See the GNU General Public License for more details.  You should have received a
 #include <simpletimer.h>
 #include "pseventparser.h"
 #include "ptpobjinfoparser.h"
-#include "ptpobjhandleparser.h"
+#include "ptp_parser.h"
 
 #include "arducam_chdk_ptp.h"
 
