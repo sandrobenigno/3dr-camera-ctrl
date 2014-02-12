@@ -112,154 +112,154 @@ void PTPObjInfoParser::Parse(const uint16_t len, const uint8_t *pbuf, const uint
 		cntdn	-= 12;
 		nStage	++;
 	case 1:
-		E_Notify(PSTR("Storage ID:\t\t"),0x80);
+		//E_Notify(PSTR("Storage ID:\t\t"),0x80);
 		theBuffer.valueSize = 4;
 		valueParser.Initialize(&theBuffer);
 		nStage	++;
 	case 2:
 		if (!valueParser.Parse(&p, &cntdn))
 			return;
-		PrintHex<uint32_t>(*((uint32_t*)theBuffer.pValue),0x80);
+		//PrintHex<uint32_t>(*((uint32_t*)theBuffer.pValue),0x80);
 		nStage	++;
 	case 3:
-		E_Notify(PSTR("\r\nObject Format:\t\t"),0x80);
+		//E_Notify(PSTR("\r\nObject Format:\t\t"),0x80);
 		theBuffer.valueSize = 2;
 		valueParser.Initialize(&theBuffer);
 		nStage	++;
 	case 4:
 		if (!valueParser.Parse(&p, &cntdn))
 			return;
-		PrintFormat(*((uint16_t*)theBuffer.pValue));
+		//PrintFormat(*((uint16_t*)theBuffer.pValue));
 		nStage	++;
 	case 5:
-		E_Notify(PSTR("Protection Status:\t"),0x80);
+		//E_Notify(PSTR("Protection Status:\t"),0x80);
 		theBuffer.valueSize = 2;
 		valueParser.Initialize(&theBuffer);
 		nStage	++;
 	case 6:
 		if (!valueParser.Parse(&p, &cntdn))
 			return;
-		PrintHex<uint16_t>(*((uint16_t*)theBuffer.pValue),0x80);
+		//PrintHex<uint16_t>(*((uint16_t*)theBuffer.pValue),0x80);
 		nStage	++;
 	case 7:
-		E_Notify(PSTR("\r\nObject Compressed Size:\t"),0x80);
+		//E_Notify(PSTR("\r\nObject Compressed Size:\t"),0x80);
 		theBuffer.valueSize = 4;
 		valueParser.Initialize(&theBuffer);
 		nStage	++;
 	case 8:
 		if (!valueParser.Parse(&p, &cntdn))
 			return;
-		PrintHex<uint32_t>(*((uint32_t*)theBuffer.pValue),0x80);
+		//PrintHex<uint32_t>(*((uint32_t*)theBuffer.pValue),0x80);
 		nStage	++;
 	case 9:
-		E_Notify(PSTR("\r\nThumb Format:\t\t"),0x80);
+		//E_Notify(PSTR("\r\nThumb Format:\t\t"),0x80);
 		theBuffer.valueSize = 2;
 		valueParser.Initialize(&theBuffer);
 		nStage	++;
 	case 10:
 		if (!valueParser.Parse(&p, &cntdn))
 			return;
-		PrintFormat(*((uint16_t*)theBuffer.pValue));
+		//PrintFormat(*((uint16_t*)theBuffer.pValue));
 		nStage	++;
 	case 11:
-		E_Notify(PSTR("Thumb Compressed Size:\t"),0x80);
+		//E_Notify(PSTR("Thumb Compressed Size:\t"),0x80);
 		theBuffer.valueSize = 4;
 		valueParser.Initialize(&theBuffer);
 		nStage	++;
 	case 12:
 		if (!valueParser.Parse(&p, &cntdn))
 			return;
-		PrintHex<uint32_t>(*((uint32_t*)theBuffer.pValue),0x80);
+		//PrintHex<uint32_t>(*((uint32_t*)theBuffer.pValue),0x80);
 		nStage	++;
 	case 13:
-		E_Notify(PSTR("\r\nThumb Pix Width:\t"),0x80);
+		//E_Notify(PSTR("\r\nThumb Pix Width:\t"),0x80);
 		theBuffer.valueSize = 4;
 		valueParser.Initialize(&theBuffer);
 		nStage	++;
 	case 14:
 		if (!valueParser.Parse(&p, &cntdn))
 			return;
-		PrintHex<uint32_t>(*((uint32_t*)theBuffer.pValue),0x80);
+		//PrintHex<uint32_t>(*((uint32_t*)theBuffer.pValue),0x80);
 		nStage	++;
 	case 15:
-		E_Notify(PSTR("\r\nThumb Pix Height:\t"),0x80);
+		//E_Notify(PSTR("\r\nThumb Pix Height:\t"),0x80);
 		theBuffer.valueSize = 4;
 		valueParser.Initialize(&theBuffer);
 		nStage	++;
 	case 16:
 		if (!valueParser.Parse(&p, &cntdn))
 			return;
-		PrintHex<uint32_t>(*((uint32_t*)theBuffer.pValue),0x80);
+		//PrintHex<uint32_t>(*((uint32_t*)theBuffer.pValue),0x80);
 		nStage	++;
 	case 17:
-		E_Notify(PSTR("\r\nImage Pix Width:\t"),0x80);
+		//E_Notify(PSTR("\r\nImage Pix Width:\t"),0x80);
 		theBuffer.valueSize = 4;
 		valueParser.Initialize(&theBuffer);
 		nStage	++;
 	case 18:
 		if (!valueParser.Parse(&p, &cntdn))
 			return;
-		PrintHex<uint32_t>(*((uint32_t*)theBuffer.pValue),0x80);
+		//PrintHex<uint32_t>(*((uint32_t*)theBuffer.pValue),0x80);
 		nStage	++;
 	case 19:
-		E_Notify(PSTR("\r\nImage Pix Height:\t"),0x80);
+		//E_Notify(PSTR("\r\nImage Pix Height:\t"),0x80);
 		theBuffer.valueSize = 4;
 		valueParser.Initialize(&theBuffer);
 		nStage	++;
 	case 20:
 		if (!valueParser.Parse(&p, &cntdn))
 			return;
-		PrintHex<uint32_t>(*((uint32_t*)theBuffer.pValue),0x80);
+		//PrintHex<uint32_t>(*((uint32_t*)theBuffer.pValue),0x80);
 		nStage	++;
 	case 21:
-		E_Notify(PSTR("\r\nImage Bit Depth:\t"),0x80);
+		//E_Notify(PSTR("\r\nImage Bit Depth:\t"),0x80);
 		theBuffer.valueSize = 4;
 		valueParser.Initialize(&theBuffer);
 		nStage	++;
 	case 22:
 		if (!valueParser.Parse(&p, &cntdn))
 			return;
-		PrintHex<uint32_t>(*((uint32_t*)theBuffer.pValue),0x80);
+		//PrintHex<uint32_t>(*((uint32_t*)theBuffer.pValue),0x80);
 		nStage	++;
 	case 23:
-		E_Notify(PSTR("\r\nParent Object:\t\t"),0x80);
+		//E_Notify(PSTR("\r\nParent Object:\t\t"),0x80);
 		theBuffer.valueSize = 4;
 		valueParser.Initialize(&theBuffer);
 		nStage	++;
 	case 24:
 		if (!valueParser.Parse(&p, &cntdn))
 			return;
-		PrintHex<uint32_t>(*((uint32_t*)theBuffer.pValue),0x80);
+		//PrintHex<uint32_t>(*((uint32_t*)theBuffer.pValue),0x80);
 		nStage	++;
 	case 25:
-		E_Notify(PSTR("\r\nAssociation Type:\t"),0x80);
+		//E_Notify(PSTR("\r\nAssociation Type:\t"),0x80);
 		theBuffer.valueSize = 2;
 		valueParser.Initialize(&theBuffer);
 		nStage	++;
 	case 26:
 		if (!valueParser.Parse(&p, &cntdn))
 			return;
-		PrintHex<uint16_t>(*((uint16_t*)theBuffer.pValue),0x80);
+		//PrintHex<uint16_t>(*((uint16_t*)theBuffer.pValue),0x80);
 		nStage	++;
 	case 27:
-		E_Notify(PSTR("\r\nAssociation Desc:\t"),0x80);
+		//E_Notify(PSTR("\r\nAssociation Desc:\t"),0x80);
 		theBuffer.valueSize = 4;
 		valueParser.Initialize(&theBuffer);
 		nStage	++;
 	case 28:
 		if (!valueParser.Parse(&p, &cntdn))
 			return;
-		PrintHex<uint32_t>(*((uint32_t*)theBuffer.pValue),0x80);
+		//PrintHex<uint32_t>(*((uint32_t*)theBuffer.pValue),0x80);
 		nStage	++;
 	case 29:
-		E_Notify(PSTR("\r\nSequence Number:\t"),0x80);
+		//E_Notify(PSTR("\r\nSequence Number:\t"),0x80);
 		theBuffer.valueSize = 4;
 		valueParser.Initialize(&theBuffer);
 		nStage	++;
 	case 30:
 		if (!valueParser.Parse(&p, &cntdn))
 			return;
-		PrintHex<uint32_t>(*((uint32_t*)theBuffer.pValue),0x80);
+		//PrintHex<uint32_t>(*((uint32_t*)theBuffer.pValue),0x80);
 		nStage	++;
 	case 31:
 		E_Notify(PSTR("\r\nFile Name:\t\t"),0x80);
@@ -270,7 +270,7 @@ void PTPObjInfoParser::Parse(const uint16_t len, const uint8_t *pbuf, const uint
 			return;
 		nStage	++;
 	case 33:
-		E_Notify(PSTR("\r\nCapture Date:\t\t"),0x80);
+		//E_Notify(PSTR("\r\nCapture Date:\t\t"),0x80);
 		arrayParser.Initialize(1, 2, &theBuffer);
 		nStage	++;
 	case 34:
@@ -278,7 +278,7 @@ void PTPObjInfoParser::Parse(const uint16_t len, const uint8_t *pbuf, const uint
 			return;
 		nStage	++;
 	case 35:
-		E_Notify(PSTR("\r\nModification Date:\t"),0x80);
+		//E_Notify(PSTR("\r\nModification Date:\t"),0x80);
 		arrayParser.Initialize(1, 2, &theBuffer);
 		nStage	++;
 	case 36:
@@ -286,13 +286,14 @@ void PTPObjInfoParser::Parse(const uint16_t len, const uint8_t *pbuf, const uint
 			return;
 		nStage	++;
 	case 37:
-		E_Notify(PSTR("\r\nKeywords:\t"),0x80);
+		//E_Notify(PSTR("\r\nKeywords:\t"),0x80);
 		arrayParser.Initialize(1, 2, &theBuffer);
 		nStage	++;
 	case 38:
 		if (!arrayParser.Parse(&p, &cntdn, (PTP_ARRAY_EL_FUNC)&PrintChar))
 			return;
-		E_Notify(PSTR("\r\n"),0x80);
+		//E_Notify(PSTR("\r\n"),0x80);
 		nStage	= 0;
 	}
 }
+

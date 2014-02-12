@@ -24,6 +24,18 @@ ArduCAM_PTP::ArduCAM_PTP(USB *pusb, PTPStateHandlers *s)
 {
 }
 
+//Event Parser
+uint16_t ArduCAM_PTP::EventCheck(PTPReadParser *parser)
+{
+  uint16_t        ptp_error       = PTP_RC_GeneralError;
+  OperFlags       flags           = { 2, 2, 1, 1, 3, 0 };
+  
+  if ( (ptp_error = Transaction(PS_OC_CheckEvent, &flags, NULL, parser)) != PTP_RC_OK)
+            PTPTRACE2("EventCheck error: ", ptp_error);
+  
+  return ptp_error;
+}
+
 //Extending CanonPS class with CHDK initialization
 uint16_t ArduCAM_PTP::InitCHDK(bool binit)
 {

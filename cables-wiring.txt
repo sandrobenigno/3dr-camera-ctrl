@@ -19,7 +19,7 @@
 *Interconnection
 
   Control Board LANC <--cable--> Handycam LANC: DF13 3pin to Sony Lanc (D shape or newest one deppending on the model)
-  Control Board TTL(from LANC pins) to SLR Remote: DF13 3pin to 3 pole P2 plug (usually 2.5mm P2 plug)
+  Control Board OPTO(from LANC pins) to SLR Remote: DF13 3pin to 3 pole P2 plug (usually 2.5mm P2 plug)
       Auto Pilot i2c <--cable--> Control Board i2c: DF13 4pin male to DF13 4pin male
 
 *Broken Out Pins

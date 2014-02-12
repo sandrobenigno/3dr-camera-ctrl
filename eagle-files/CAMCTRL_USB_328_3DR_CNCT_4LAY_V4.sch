@@ -5732,7 +5732,7 @@ Source: &lt;a href="http://www.hirose.co.jp/cataloge_hp/e53600014.pdf"&gt;http:/
 <part name="J1" library="SparkFun-Connectors" deviceset="AVR_SPI_PRG_6" device="PTH" value="ICSP"/>
 <part name="Y1" library="SparkFun-FreqCtrl" deviceset="RESONATOR" device="16MHZ" value="16MHz"/>
 <part name="Q1" library="SparkFun-FreqCtrl" deviceset="CRYSTAL" device="5X3" value="12MHz"/>
-<part name="R2" library="pel_dipol_comp" deviceset="RESISTOR" device="-0402" value="1K"/>
+<part name="R2" library="pel_dipol_comp" deviceset="RESISTOR" device="-0402" value="220R"/>
 <part name="C2" library="pel_dipol_comp" deviceset="CAPACITOR" device="-0402" value="0.1uF"/>
 <part name="P+1" library="supply1" deviceset="VCC" device="" value="5V"/>
 <part name="P+2" library="supply1" deviceset="VCC" device="" value="5V"/>
@@ -5770,7 +5770,7 @@ Source: &lt;a href="http://www.hirose.co.jp/cataloge_hp/e53600014.pdf"&gt;http:/
 <part name="GND15" library="SparkFun" deviceset="GND" device=""/>
 <part name="LED2" library="pel_dipol_comp" deviceset="LED" device="-0603" value="RED"/>
 <part name="GND16" library="SparkFun" deviceset="GND" device=""/>
-<part name="R14" library="pel_dipol_comp" deviceset="RESISTOR" device="-0402" value="330"/>
+<part name="R14" library="pel_dipol_comp" deviceset="RESISTOR" device="-0402" value="100R"/>
 <part name="C10" library="SparkFun" deviceset="CAP_POL" device="1206" value="10uF"/>
 <part name="GND17" library="SparkFun" deviceset="GND" device=""/>
 <part name="F1" library="SparkFun" deviceset="PTC" device="SMD"/>
@@ -5778,7 +5778,7 @@ Source: &lt;a href="http://www.hirose.co.jp/cataloge_hp/e53600014.pdf"&gt;http:/
 <part name="D1" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="_"/>
 <part name="R1" library="pel_dipol_comp" deviceset="RESISTOR" device="-0402" value="33 1%"/>
 <part name="R5" library="pel_dipol_comp" deviceset="RESISTOR" device="-0402" value="33 1%"/>
-<part name="R6" library="pel_dipol_comp" deviceset="RESISTOR" device="-0402" value="1K"/>
+<part name="R6" library="pel_dipol_comp" deviceset="RESISTOR" device="-0402" value="220R"/>
 <part name="GND18" library="supply1" deviceset="GND" device=""/>
 <part name="LED3" library="pel_dipol_comp" deviceset="LED" device="-0603" value="BLUE"/>
 <part name="U2" library="SparkFun-DigitalIC" deviceset="ATMEGA168" device=""/>
@@ -5794,7 +5794,7 @@ Source: &lt;a href="http://www.hirose.co.jp/cataloge_hp/e53600014.pdf"&gt;http:/
 <part name="GND22" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="SJ1" library="SparkFun-Passives" deviceset="SOLDERJUMPER_2WAY" device="PASTE2&amp;3"/>
 <part name="SJ2" library="SparkFun-Passives" deviceset="SOLDERJUMPER-OLD" device="NO"/>
-<part name="R13" library="pel_dipol_comp" deviceset="RESISTOR" device="-0402" value="1K"/>
+<part name="R13" library="pel_dipol_comp" deviceset="RESISTOR" device="-0402" value="220R"/>
 <part name="LED4" library="pel_dipol_comp" deviceset="LED" device="-0603" value="BLUE"/>
 <part name="GND23" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="U$2" library="SparkFun" deviceset="5V" device=""/>
@@ -5827,8 +5827,8 @@ Source: &lt;a href="http://www.hirose.co.jp/cataloge_hp/e53600014.pdf"&gt;http:/
 <part name="GND29" library="SparkFun" deviceset="GND" device=""/>
 <part name="C13" library="pel_dipol_comp" deviceset="CAPACITOR" device="-0402" value="0.1uF"/>
 <part name="GND30" library="SparkFun" deviceset="GND" device=""/>
-<part name="R17" library="pel_dipol_comp" deviceset="RESISTOR" device="-0402" value="270R"/>
-<part name="R18" library="pel_dipol_comp" deviceset="RESISTOR" device="-0402" value="270R"/>
+<part name="R17" library="pel_dipol_comp" deviceset="RESISTOR" device="-0402" value="220R"/>
+<part name="R18" library="pel_dipol_comp" deviceset="RESISTOR" device="-0402" value="220R"/>
 <part name="LED5" library="pel_dipol_comp" deviceset="LED" device="-0603" value="GREEN"/>
 <part name="LED6" library="pel_dipol_comp" deviceset="LED" device="-0603" value="RED"/>
 <part name="U$7" library="SparkFun" deviceset="5V" device=""/>
@@ -5937,7 +5937,10 @@ CBUS2: TXLED#</text>
 </instance>
 <instance part="GND10" gate="1" x="45.72" y="185.42"/>
 <instance part="U$3" gate="G$1" x="45.72" y="220.98"/>
-<instance part="R4" gate="G$1" x="45.72" y="210.82" rot="R90"/>
+<instance part="R4" gate="G$1" x="45.72" y="210.82" smashed="yes" rot="R90">
+<attribute name="VALUE" x="48.768" y="210.82" size="1.778" layer="96" rot="R90"/>
+<attribute name="NAME" x="48.768" y="205.74" size="1.778" layer="95" rot="R90"/>
+</instance>
 <instance part="C14" gate="G$1" x="38.1" y="205.74" rot="R90"/>
 <instance part="C1" gate="G$1" x="96.52" y="391.16"/>
 <instance part="IC2" gate="G$1" x="68.58" y="396.24"/>

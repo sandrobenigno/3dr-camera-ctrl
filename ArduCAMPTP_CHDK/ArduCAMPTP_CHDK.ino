@@ -1,13 +1,14 @@
 /*
-ArduCam PTP CHDK - Arduino based Remote Camera Control Project.
+ArduCam OSD - The Arduino based Remote Camera Control and OSD.
 Copyright (c) 2011.  All rights reserved.
+An Open Source Arduino based OSD and Camera Control project.
 
 Code : ArduCamPTP_CHDK
 Version : v0.95, 03 aug 2013
 
 Author(s): Sandro Benigno
                   Legacy PTP commands from Canon's PS-ReCSDK 1.1.0e
-                  Extended PTP commands from CHDK's PTP implementation
+                  Custom PTP commands from CHDK's PTP implementation
                   USB host and PTP library from Oleg Mazurov - circuitsathome.com
 
 This program is free software: you can redistribute it and/or modify
@@ -38,6 +39,7 @@ See the GNU General Public License for more details.  You should have received a
 #include <simpletimer.h>
 #include "pseventparser.h"
 #include "ptpobjinfoparser.h"
+#include "ptpobjhandleparser.h"
 
 #include "arducam_chdk_ptp.h"
 
@@ -60,7 +62,7 @@ USB         Usb;
 USBHub      Hub1(&Usb);
 ArduCAM_PTP Ps(&Usb, &CamStates); //New CHDK PTP
 
-SimpleTimer  eventTimer, captureTimer;
+SimpleTimer  captureTimer;
 
 void CamStateHandlers::OnDeviceDisconnectedState(PTP *ptp)
 {
@@ -68,7 +70,6 @@ void CamStateHandlers::OnDeviceDisconnectedState(PTP *ptp)
     {
         stateConnected = stDisconnected;
         usbPlugged = false;
-        eventTimer.Disable();
         captureTimer.Disable();
         
         E_Notify(PSTR("Camera disconnected\r\n"),0x80);
@@ -82,7 +83,6 @@ void CamStateHandlers::OnDeviceInitializedState(PTP *ptp)
         stateConnected = stConnected;
         usbPlugged = true;
         E_Notify(PSTR("Camera connected\r\n"),0x80);
-        eventTimer.Enable();
         captureTimer.Enable();
     }
 }
@@ -108,7 +108,6 @@ void setup()
   if (Usb.Init() == -1)
             Serial.println("OSC did not start.");
 
-  eventTimer.Set(&OnEventTimer, 500);
   captureTimer.Set(&OnCaptureTimer, 200);
   delay( 200 );
 }
@@ -118,9 +117,7 @@ void loop()
   while(!usbPlugged)
     Usb.Task();
 
-  eventTimer.Run();
   captureTimer.Run();
-  //readSerialCommand();
   Usb.Task();
 }
 
@@ -130,39 +127,44 @@ void OnCaptureTimer()
    readSerialCommand();
 }
 
-void OnEventTimer()
-{
-    //Serial.println("On event timer...");
-  /*PSEventParser  prs;
-    Ps.EventCheck(&prs);
-    
-    if (uint32_t handle = prs.GetObjHandle())
-    {
-                PTPObjInfoParser     inf;
-                Ps.GetObjectInfo(handle, &inf);
-    }*/
-}
-
 void readSerialCommand() {
   char queryType;
-  char buffer[128] = "";
+  char buffer[256] = "";
   buffer[0] = '\0';
 
   if (Serial.available()) {
     queryType = Serial.read();
     switch (queryType) {
+
     case 'A': //Activate Capture
       Ps.InitCHDK(true);
       delay(3000);
       break;
+
     case 'C': //Capture!!!
       Ps.ExecScriptCHDK("shoot();");
-      delay(3000);
+      delay(2000);
       break;
+
     case 'D': //Deactivate Capture
       Ps.InitCHDK(false);
       delay(2000);
       break;
+
+    case 'P':
+      Serial.println("Parsing...");
+      objInfoParse();
+      delay(1000);
+      break;
+
+    case 'Z': //Set Zoom 0 - 10 (Example: Z5 or Z10)
+      strcat(buffer, "set_zoom(");
+      strcat(buffer, readCommandSerial());
+      strcat(buffer, ");");
+      Ps.ExecScriptCHDK((char*)buffer);
+      delay(1000);
+      break;
+
     case '#': //Custom Commands
       strcat(buffer, readCommandSerial());
       Ps.ExecScriptCHDK((char*)buffer);
@@ -175,7 +177,7 @@ void readSerialCommand() {
 char* readCommandSerial() {
   byte index = 0;
   byte timeout = 0;
-  char data[128] = "";
+  char data[256] = "";
 
   do {
     if (Serial.available() == 0) {
@@ -188,7 +190,7 @@ char* readCommandSerial() {
       index++;
     }
   }  
-  while ((data[constrain(index-1, 0, 128)] != ';') && (timeout < 5) && (index < 128));
+  while ((data[constrain(index-1, 0, 256)] != ';') && (timeout < 10) && (index < 256));
   return data;
 }
 
@@ -220,4 +222,15 @@ char* join3Strings(char* string1, char* string2, char* string3) {
   strcat (bigstring, string3);
 
   return bigstring;
+}
+
+void objInfoParse(){
+  PTPObjHandleParser prs;
+  Ps.GetObjectHandles(0xFFFFFFFF,0,0,&prs);
+  int bufIndex = prs.varBuffer[16] - 2;
+  //Serial.println("Buffer index is:");
+  //Serial.println(bufIndex,DEC);
+  Serial.println("Grabbing file name:");
+  PTPObjInfoParser infoParse;
+  Ps.GetObjectInfo(prs.varBuffer[bufIndex], &infoParse);
 }

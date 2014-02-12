@@ -31,12 +31,8 @@ class ArduCAM_PTP: public CanonPS
     uint16_t Initialize(bool binit);
     uint16_t InitCHDK(bool binit);
     uint16_t ExecScriptCHDK(char *script);
-  
-    /*uint16_t SetRecordMode(int mode);
-    uint16_t ExecLua(String script);
-    uint16_t SetZoom(int zoom);
-    uint16_t IncrementZoom(bool zoom);
-    uint16_t Shutdown();*/
+    uint16_t ReadMsgScriptsCHDK();
+    uint16_t EventCheck(PTPReadParser *parser);
 };
 
 #endif //__ARDUCAM_CHDK_H__
