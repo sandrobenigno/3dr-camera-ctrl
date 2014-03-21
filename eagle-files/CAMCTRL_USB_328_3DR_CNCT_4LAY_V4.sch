@@ -5734,8 +5734,6 @@ Source: &lt;a href="http://www.hirose.co.jp/cataloge_hp/e53600014.pdf"&gt;http:/
 <part name="Q1" library="SparkFun-FreqCtrl" deviceset="CRYSTAL" device="5X3" value="12MHz"/>
 <part name="R2" library="pel_dipol_comp" deviceset="RESISTOR" device="-0402" value="220R"/>
 <part name="C2" library="pel_dipol_comp" deviceset="CAPACITOR" device="-0402" value="0.1uF"/>
-<part name="P+1" library="supply1" deviceset="VCC" device="" value="5V"/>
-<part name="P+2" library="supply1" deviceset="VCC" device="" value="5V"/>
 <part name="GND1" library="supply1" deviceset="GND" device=""/>
 <part name="GND2" library="supply1" deviceset="GND" device=""/>
 <part name="GND3" library="supply1" deviceset="GND" device=""/>
@@ -5802,7 +5800,6 @@ Source: &lt;a href="http://www.hirose.co.jp/cataloge_hp/e53600014.pdf"&gt;http:/
 <part name="OK2" library="optocoupler" deviceset="ILD2*" device="" technology="05"/>
 <part name="U5" library="adafruit" deviceset="TXB0104PWR" device=""/>
 <part name="P+3" library="SparkFun" deviceset="3.3V" device=""/>
-<part name="P+6" library="supply1" deviceset="VCC" device="" value="5V"/>
 <part name="C5" library="pel_dipol_comp" deviceset="CAPACITOR" device="-0402" value="0.1uF"/>
 <part name="C6" library="pel_dipol_comp" deviceset="CAPACITOR" device="-0402" value="0.1uF"/>
 <part name="GND13" library="SparkFun" deviceset="GND" device=""/>
@@ -5845,7 +5842,6 @@ Source: &lt;a href="http://www.hirose.co.jp/cataloge_hp/e53600014.pdf"&gt;http:/
 <part name="D4" library="pel_dipol_comp" deviceset="DIODE" device="-0603"/>
 <part name="R19" library="pel_dipol_comp" deviceset="RESISTOR" device="-0402" value="10K"/>
 <part name="GND32" library="supply1" deviceset="GND" device=""/>
-<part name="P+9" library="supply1" deviceset="VCC" device="" value="5V"/>
 <part name="D2" library="pel_dipol_comp" deviceset="DIODE" device="-0603"/>
 <part name="FRAME1" library="frames" deviceset="FRAME_C_L" device=""/>
 <part name="GND33" library="supply1" deviceset="GND" device=""/>
@@ -5853,6 +5849,10 @@ Source: &lt;a href="http://www.hirose.co.jp/cataloge_hp/e53600014.pdf"&gt;http:/
 <part name="DIGITAL_PINS" library="con-hirose-df13" deviceset="DF13-4P-1.25" device="H"/>
 <part name="ANALOG_PINS" library="con-hirose-df13" deviceset="DF13-4P-1.25" device="H"/>
 <part name="LANC" library="con-hirose-df13" deviceset="DF13-3P-1.25" device="H"/>
+<part name="3V1" library="supply1" deviceset="VCC" device="" value="3.3V"/>
+<part name="U$8" library="SparkFun" deviceset="5V" device=""/>
+<part name="U$11" library="SparkFun" deviceset="5V" device=""/>
+<part name="U$13" library="SparkFun" deviceset="5V" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -5873,9 +5873,9 @@ Source: &lt;a href="http://www.hirose.co.jp/cataloge_hp/e53600014.pdf"&gt;http:/
 <wire x1="167.64" y1="327.66" x2="167.64" y2="421.64" width="0.1524" layer="97" style="shortdash"/>
 <wire x1="167.64" y1="421.64" x2="10.16" y2="421.64" width="0.1524" layer="97" style="shortdash"/>
 <wire x1="421.64" y1="284.48" x2="551.18" y2="284.48" width="0.1524" layer="97" style="shortdash"/>
-<wire x1="551.18" y1="284.48" x2="551.18" y2="231.14" width="0.1524" layer="97" style="shortdash"/>
-<wire x1="551.18" y1="231.14" x2="421.64" y2="231.14" width="0.1524" layer="97" style="shortdash"/>
-<wire x1="421.64" y1="231.14" x2="421.64" y2="284.48" width="0.1524" layer="97" style="shortdash"/>
+<wire x1="551.18" y1="284.48" x2="551.18" y2="233.68" width="0.1524" layer="97" style="shortdash"/>
+<wire x1="551.18" y1="233.68" x2="421.64" y2="233.68" width="0.1524" layer="97" style="shortdash"/>
+<wire x1="421.64" y1="233.68" x2="421.64" y2="284.48" width="0.1524" layer="97" style="shortdash"/>
 <wire x1="421.64" y1="358.14" x2="421.64" y2="289.56" width="0.1524" layer="97" style="shortdash"/>
 <wire x1="421.64" y1="289.56" x2="551.18" y2="289.56" width="0.1524" layer="97" style="shortdash"/>
 <wire x1="551.18" y1="289.56" x2="551.18" y2="358.14" width="0.1524" layer="97" style="shortdash"/>
@@ -5916,8 +5916,6 @@ CBUS2: TXLED#</text>
 <instance part="Q1" gate="G$1" x="342.9" y="223.52" rot="R270"/>
 <instance part="R2" gate="G$1" x="127" y="218.44" rot="R270"/>
 <instance part="C2" gate="G$1" x="149.86" y="276.86"/>
-<instance part="P+1" gate="VCC" x="43.18" y="299.72"/>
-<instance part="P+2" gate="VCC" x="149.86" y="289.56"/>
 <instance part="GND1" gate="1" x="50.8" y="259.08"/>
 <instance part="GND2" gate="1" x="63.5" y="228.6"/>
 <instance part="GND3" gate="1" x="149.86" y="266.7"/>
@@ -5925,9 +5923,9 @@ CBUS2: TXLED#</text>
 <instance part="LED1" gate="G$1" x="127" y="210.82"/>
 <instance part="GND6" gate="1" x="304.8" y="251.46"/>
 <instance part="3V3" gate="VCC" x="368.3" y="276.86"/>
-<instance part="C3" gate="G$1" x="337.82" y="220.98" rot="R90"/>
-<instance part="C4" gate="G$1" x="337.82" y="226.06" rot="R90"/>
-<instance part="GND7" gate="1" x="330.2" y="215.9"/>
+<instance part="C3" gate="G$1" x="332.74" y="220.98" rot="R90"/>
+<instance part="C4" gate="G$1" x="330.2" y="226.06" rot="R90"/>
+<instance part="GND7" gate="1" x="322.58" y="213.36"/>
 <instance part="R3" gate="G$1" x="350.52" y="234.188" rot="R270"/>
 <instance part="5V" gate="VCC" x="325.12" y="309.88"/>
 <instance part="GND8" gate="1" x="363.22" y="193.04"/>
@@ -6000,13 +5998,12 @@ CBUS2: TXLED#</text>
 <instance part="OK2" gate="A" x="259.08" y="396.24" rot="MR0"/>
 <instance part="OK2" gate="B" x="264.16" y="365.76"/>
 <instance part="U5" gate="G$1" x="226.06" y="248.92" rot="MR0"/>
-<instance part="P+3" gate="G$1" x="228.6" y="279.4"/>
-<instance part="P+6" gate="VCC" x="223.52" y="281.94"/>
-<instance part="C5" gate="G$1" x="246.38" y="266.7" rot="R90"/>
-<instance part="C6" gate="G$1" x="203.2" y="266.7" rot="R270"/>
+<instance part="P+3" gate="G$1" x="228.6" y="281.94"/>
+<instance part="C5" gate="G$1" x="243.84" y="274.32" rot="R90"/>
+<instance part="C6" gate="G$1" x="205.74" y="274.32" rot="R270"/>
 <instance part="GND13" gate="1" x="226.06" y="231.14"/>
-<instance part="GND24" gate="1" x="193.04" y="264.16"/>
-<instance part="GND25" gate="1" x="254" y="264.16"/>
+<instance part="GND24" gate="1" x="193.04" y="271.78"/>
+<instance part="GND25" gate="1" x="256.54" y="271.78"/>
 <instance part="USB1" gate="G$1" x="454.66" y="393.7" rot="MR0"/>
 <instance part="GND9" gate="1" x="462.28" y="373.38"/>
 <instance part="U$5" gate="-1" x="525.78" y="401.32"/>
@@ -6063,7 +6060,6 @@ CBUS2: TXLED#</text>
 </instance>
 <instance part="R19" gate="G$1" x="289.56" y="124.968" rot="R90"/>
 <instance part="GND32" gate="1" x="289.56" y="116.332"/>
-<instance part="P+9" gate="VCC" x="464.82" y="218.44"/>
 <instance part="D2" gate="G$1" x="281.94" y="132.08" smashed="yes">
 <attribute name="NAME" x="284.48" y="132.5626" size="1.778" layer="95"/>
 </instance>
@@ -6074,6 +6070,10 @@ CBUS2: TXLED#</text>
 <instance part="DIGITAL_PINS" gate="G$1" x="121.92" y="139.7" rot="R180"/>
 <instance part="ANALOG_PINS" gate="G$1" x="185.42" y="134.62" rot="R180"/>
 <instance part="LANC" gate="G$1" x="414.02" y="134.62" rot="R180"/>
+<instance part="3V1" gate="VCC" x="469.9" y="218.44"/>
+<instance part="U$8" gate="G$1" x="43.18" y="299.72"/>
+<instance part="U$11" gate="G$1" x="149.86" y="292.1"/>
+<instance part="U$13" gate="G$1" x="223.52" y="281.94"/>
 </instances>
 <busses>
 </busses>
@@ -6149,13 +6149,13 @@ CBUS2: TXLED#</text>
 </segment>
 <segment>
 <pinref part="C3" gate="G$1" pin="1"/>
-<wire x1="335.28" y1="220.98" x2="330.2" y2="220.98" width="0.1524" layer="91"/>
-<wire x1="330.2" y1="220.98" x2="330.2" y2="218.44" width="0.1524" layer="91"/>
+<wire x1="330.2" y1="220.98" x2="322.58" y2="220.98" width="0.1524" layer="91"/>
+<wire x1="322.58" y1="220.98" x2="322.58" y2="215.9" width="0.1524" layer="91"/>
 <pinref part="GND7" gate="1" pin="GND"/>
 <pinref part="C4" gate="G$1" pin="1"/>
-<wire x1="335.28" y1="226.06" x2="330.2" y2="226.06" width="0.1524" layer="91"/>
-<wire x1="330.2" y1="226.06" x2="330.2" y2="220.98" width="0.1524" layer="91"/>
-<junction x="330.2" y="220.98"/>
+<wire x1="327.66" y1="226.06" x2="322.58" y2="226.06" width="0.1524" layer="91"/>
+<wire x1="322.58" y1="226.06" x2="322.58" y2="220.98" width="0.1524" layer="91"/>
+<junction x="322.58" y="220.98"/>
 </segment>
 <segment>
 <pinref part="U1" gate="G$1" pin="GND@3"/>
@@ -6254,12 +6254,12 @@ CBUS2: TXLED#</text>
 <segment>
 <pinref part="C6" gate="G$1" pin="2"/>
 <pinref part="GND24" gate="1" pin="GND"/>
-<wire x1="198.12" y1="266.7" x2="193.04" y2="266.7" width="0.1524" layer="91"/>
+<wire x1="200.66" y1="274.32" x2="193.04" y2="274.32" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="C5" gate="G$1" pin="2"/>
 <pinref part="GND25" gate="1" pin="GND"/>
-<wire x1="251.46" y1="266.7" x2="254" y2="266.7" width="0.1524" layer="91"/>
+<wire x1="248.92" y1="274.32" x2="256.54" y2="274.32" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="USB1" gate="G$1" pin="5"/>
@@ -6396,17 +6396,17 @@ CBUS2: TXLED#</text>
 <wire x1="71.12" y1="287.02" x2="43.18" y2="287.02" width="0.1524" layer="91"/>
 <wire x1="43.18" y1="287.02" x2="43.18" y2="284.48" width="0.1524" layer="91"/>
 <junction x="43.18" y="284.48"/>
-<pinref part="P+1" gate="VCC" pin="VCC"/>
-<wire x1="43.18" y1="297.18" x2="43.18" y2="287.02" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="299.72" x2="43.18" y2="287.02" width="0.1524" layer="91"/>
 <junction x="43.18" y="287.02"/>
 <pinref part="U2" gate="G$1" pin="AVCC"/>
 <pinref part="U2" gate="G$1" pin="VCC@1"/>
 <pinref part="U2" gate="G$1" pin="VCC@2"/>
+<pinref part="U$8" gate="G$1" pin="5V"/>
 </segment>
 <segment>
 <pinref part="C2" gate="G$1" pin="1"/>
-<pinref part="P+2" gate="VCC" pin="VCC"/>
-<wire x1="149.86" y1="279.4" x2="149.86" y2="287.02" width="0.1524" layer="91"/>
+<wire x1="149.86" y1="279.4" x2="149.86" y2="292.1" width="0.1524" layer="91"/>
+<pinref part="U$11" gate="G$1" pin="5V"/>
 </segment>
 <segment>
 <pinref part="J1" gate="G$1" pin="2"/>
@@ -6474,6 +6474,15 @@ CBUS2: TXLED#</text>
 <wire x1="55.88" y1="355.6" x2="55.88" y2="363.22" width="0.1524" layer="91"/>
 <pinref part="L2" gate="G$1" pin="P$2"/>
 <wire x1="55.88" y1="355.6" x2="53.34" y2="355.6" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="C6" gate="G$1" pin="1"/>
+<wire x1="208.28" y1="274.32" x2="223.52" y2="274.32" width="0.1524" layer="91"/>
+<pinref part="U5" gate="G$1" pin="VCCB"/>
+<wire x1="223.52" y1="274.32" x2="223.52" y2="266.7" width="0.1524" layer="91"/>
+<wire x1="223.52" y1="274.32" x2="223.52" y2="281.94" width="0.1524" layer="91"/>
+<junction x="223.52" y="274.32"/>
+<pinref part="U$13" gate="G$1" pin="5V"/>
 </segment>
 </net>
 <net name="SCK" class="0">
@@ -6637,14 +6646,6 @@ CBUS2: TXLED#</text>
 <pinref part="C10" gate="G$1" pin="+"/>
 </segment>
 <segment>
-<pinref part="U5" gate="G$1" pin="VCCA"/>
-<pinref part="P+3" gate="G$1" pin="3.3V"/>
-<wire x1="228.6" y1="266.7" x2="228.6" y2="279.4" width="0.1524" layer="91"/>
-<pinref part="C5" gate="G$1" pin="1"/>
-<wire x1="243.84" y1="266.7" x2="228.6" y2="266.7" width="0.1524" layer="91"/>
-<junction x="228.6" y="266.7"/>
-</segment>
-<segment>
 <pinref part="P+4" gate="G$1" pin="3.3V"/>
 <pinref part="R16" gate="G$1" pin="1"/>
 <wire x1="439.42" y1="271.78" x2="439.42" y2="266.7" width="0.1524" layer="91"/>
@@ -6669,14 +6670,30 @@ CBUS2: TXLED#</text>
 <wire x1="342.9" y1="137.16" x2="342.9" y2="139.7" width="0.1524" layer="91"/>
 <pinref part="I2C" gate="G$1" pin="1"/>
 </segment>
+<segment>
+<pinref part="U4" gate="A" pin="VCC"/>
+<pinref part="3V1" gate="VCC" pin="VCC"/>
+<wire x1="474.98" y1="210.82" x2="469.9" y2="210.82" width="0.1524" layer="91"/>
+<wire x1="469.9" y1="210.82" x2="469.9" y2="215.9" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="P+3" gate="G$1" pin="3.3V"/>
+<pinref part="U5" gate="G$1" pin="VCCA"/>
+<wire x1="228.6" y1="281.94" x2="228.6" y2="274.32" width="0.1524" layer="91"/>
+<pinref part="C5" gate="G$1" pin="1"/>
+<wire x1="228.6" y1="274.32" x2="228.6" y2="266.7" width="0.1524" layer="91"/>
+<wire x1="228.6" y1="274.32" x2="241.3" y2="274.32" width="0.1524" layer="91"/>
+<junction x="228.6" y="274.32"/>
+</segment>
 </net>
 <net name="N$5" class="0">
 <segment>
 <pinref part="U1" gate="G$1" pin="X0"/>
 <pinref part="Q1" gate="G$1" pin="1"/>
-<wire x1="368.3" y1="226.06" x2="342.9" y2="226.06" width="0.1524" layer="91"/>
+<wire x1="368.3" y1="226.06" x2="335.28" y2="226.06" width="0.1524" layer="91"/>
 <pinref part="C4" gate="G$1" pin="2"/>
-<junction x="342.9" y="226.06"/>
+<junction x="335.28" y="226.06"/>
+<wire x1="335.28" y1="226.06" x2="342.9" y2="226.06" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$8" class="0">
@@ -6685,17 +6702,10 @@ CBUS2: TXLED#</text>
 <wire x1="368.3" y1="223.52" x2="347.98" y2="223.52" width="0.1524" layer="91"/>
 <wire x1="347.98" y1="223.52" x2="345.44" y2="220.98" width="0.1524" layer="91"/>
 <pinref part="Q1" gate="G$1" pin="2"/>
-<wire x1="345.44" y1="220.98" x2="342.9" y2="220.98" width="0.1524" layer="91"/>
-<junction x="342.9" y="220.98"/>
+<wire x1="345.44" y1="220.98" x2="337.82" y2="220.98" width="0.1524" layer="91"/>
+<junction x="337.82" y="220.98"/>
 <pinref part="C3" gate="G$1" pin="2"/>
-</segment>
-</net>
-<net name="N$11" class="0">
-<segment>
-<pinref part="U1" gate="G$1" pin="INT"/>
-<wire x1="368.3" y1="220.98" x2="350.52" y2="220.98" width="0.1524" layer="91"/>
-<wire x1="350.52" y1="220.98" x2="350.52" y2="229.108" width="0.1524" layer="91"/>
-<pinref part="R3" gate="G$1" pin="2"/>
+<wire x1="337.82" y1="220.98" x2="342.9" y2="220.98" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="MOSI-IN" class="0">
@@ -6911,6 +6921,11 @@ CBUS2: TXLED#</text>
 <wire x1="119.38" y1="264.16" x2="129.54" y2="264.16" width="0.1524" layer="91"/>
 <label x="129.54" y="264.16" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="DIGITAL_PINS" gate="G$1" pin="2"/>
+<wire x1="127" y1="139.7" x2="134.62" y2="139.7" width="0.1524" layer="91"/>
+<label x="134.62" y="139.7" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="D3" class="0">
 <segment>
@@ -6919,16 +6934,23 @@ CBUS2: TXLED#</text>
 <label x="129.54" y="261.62" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="D9" class="0">
+<net name="INT" class="0">
 <segment>
 <pinref part="U2" gate="G$1" pin="PB1(OC1A)"/>
 <wire x1="119.38" y1="243.84" x2="129.54" y2="243.84" width="0.1524" layer="91"/>
 <label x="129.54" y="243.84" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="DIGITAL_PINS" gate="G$1" pin="2"/>
-<wire x1="127" y1="139.7" x2="134.62" y2="139.7" width="0.1524" layer="91"/>
-<label x="134.62" y="139.7" size="1.778" layer="95"/>
+<pinref part="U1" gate="G$1" pin="INT"/>
+<wire x1="368.3" y1="220.98" x2="350.52" y2="220.98" width="0.1524" layer="91"/>
+<wire x1="350.52" y1="220.98" x2="350.52" y2="228.6" width="0.1524" layer="91"/>
+<pinref part="R3" gate="G$1" pin="2"/>
+<wire x1="350.52" y1="228.6" x2="350.52" y2="229.108" width="0.1524" layer="91"/>
+<wire x1="350.52" y1="228.6" x2="347.98" y2="228.6" width="0.1524" layer="91"/>
+<wire x1="347.98" y1="228.6" x2="340.36" y2="236.22" width="0.1524" layer="91"/>
+<junction x="350.52" y="228.6"/>
+<wire x1="340.36" y1="236.22" x2="335.28" y2="236.22" width="0.1524" layer="91"/>
+<label x="330.2" y="236.22" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="D5_LANC_CMD" class="0">
@@ -7121,22 +7143,6 @@ CBUS2: TXLED#</text>
 <pinref part="R13" gate="G$1" pin="2"/>
 <pinref part="LED4" gate="G$1" pin="A"/>
 <wire x1="213.36" y1="363.22" x2="213.36" y2="355.6" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="VCC" class="0">
-<segment>
-<pinref part="U5" gate="G$1" pin="VCCB"/>
-<pinref part="P+6" gate="VCC" pin="VCC"/>
-<wire x1="223.52" y1="266.7" x2="223.52" y2="279.4" width="0.1524" layer="91"/>
-<pinref part="C6" gate="G$1" pin="1"/>
-<wire x1="223.52" y1="266.7" x2="205.74" y2="266.7" width="0.1524" layer="91"/>
-<junction x="223.52" y="266.7"/>
-</segment>
-<segment>
-<pinref part="U4" gate="A" pin="VCC"/>
-<wire x1="474.98" y1="210.82" x2="464.82" y2="210.82" width="0.1524" layer="91"/>
-<pinref part="P+9" gate="VCC" pin="VCC"/>
-<wire x1="464.82" y1="210.82" x2="464.82" y2="215.9" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="CTS" class="0">
