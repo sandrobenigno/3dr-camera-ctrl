@@ -3927,7 +3927,7 @@ Source: 153385-da-01-en-Optocoupler_ILD205-T.pdf</description>
 </package>
 </packages>
 <symbols>
-<symbol name="TXB0104PWR">
+<symbol name="TXS0104PWR">
 <wire x1="-12.7" y1="15.24" x2="12.7" y2="15.24" width="0.254" layer="94"/>
 <wire x1="12.7" y1="15.24" x2="12.7" y2="-12.7" width="0.254" layer="94"/>
 <wire x1="12.7" y1="-12.7" x2="-12.7" y2="-12.7" width="0.254" layer="94"/>
@@ -3940,8 +3940,8 @@ Source: 153385-da-01-en-Optocoupler_ILD205-T.pdf</description>
 <wire x1="2.54" y1="-10.16" x2="12.7" y2="-10.16" width="0.127" layer="97" style="shortdash"/>
 <text x="-12.7" y="17.78" size="1.27" layer="95">&gt;NAME</text>
 <text x="-12.7" y="-15.24" size="1.27" layer="96">&gt;VALUE</text>
-<text x="-11.43" y="-8.89" size="1.27" layer="97">1.2-3.6V</text>
-<text x="3.175" y="-8.89" size="1.27" layer="97">1.65-5.5V</text>
+<text x="-11.43" y="-8.89" size="1.27" layer="97">1.65-3.6V</text>
+<text x="3.175" y="-8.89" size="1.27" layer="97">2.3-5.5V</text>
 <pin name="VCCA" x="-2.54" y="17.78" length="short" rot="R270"/>
 <pin name="A1" x="-15.24" y="2.54" length="short"/>
 <pin name="A2" x="-15.24" y="0" length="short"/>
@@ -3957,15 +3957,15 @@ Source: 153385-da-01-en-Optocoupler_ILD205-T.pdf</description>
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="TXB0104PWR" prefix="U" uservalue="yes">
+<deviceset name="TXS0104PWR" prefix="U" uservalue="yes">
 <description>&lt;b&gt;4-Bit Bi-Directional Level Shifter&lt;/b&gt;
 &lt;ul&gt;
-  &lt;li&gt;1.2V-3.6V (VCCA) to 1.65V-5.5V (VCCB) bi-directional level shifter with auto direction sensing.&lt;/li&gt;
-  &lt;li&gt;Max data rate - VCCA 1.8V:  20Mbps (50ns), VCCA 3.3V: 100Mbps (10ns)&lt;/li&gt;
+  &lt;li&gt;1.65V-3.6V (VCCA) to 2.3V-5.5V (VCCB) bi-directional level shifter with auto direction sensing.&lt;/li&gt;
+  &lt;li&gt;Max data rate - VCCA 2.5V:  24Mbps (41ns), VCCA 3.3V: 24Mbps (41ns)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Digikey: 296-21929-1-ND&lt;/p&gt;</description>
+&lt;p&gt;Digikey: 296-20697-2-ND&lt;/p&gt;</description>
 <gates>
-<gate name="G$1" symbol="TXB0104PWR" x="0" y="0"/>
+<gate name="G$1" symbol="TXS0104PWR" x="0" y="0"/>
 </gates>
 <devices>
 <device name="" package="TSSOP14">
@@ -5798,7 +5798,7 @@ Source: &lt;a href="http://www.hirose.co.jp/cataloge_hp/e53600014.pdf"&gt;http:/
 <part name="U$2" library="SparkFun" deviceset="5V" device=""/>
 <part name="U$4" library="SparkFun" deviceset="5V" device=""/>
 <part name="OK2" library="optocoupler" deviceset="ILD2*" device="" technology="05"/>
-<part name="U5" library="adafruit" deviceset="TXB0104PWR" device=""/>
+<part name="U5" library="adafruit" deviceset="TXS0104PWR" device=""/>
 <part name="P+3" library="SparkFun" deviceset="3.3V" device=""/>
 <part name="C5" library="pel_dipol_comp" deviceset="CAPACITOR" device="-0402" value="0.1uF"/>
 <part name="C6" library="pel_dipol_comp" deviceset="CAPACITOR" device="-0402" value="0.1uF"/>
@@ -5854,6 +5854,7 @@ Source: &lt;a href="http://www.hirose.co.jp/cataloge_hp/e53600014.pdf"&gt;http:/
 <part name="U$11" library="SparkFun" deviceset="5V" device=""/>
 <part name="U$13" library="SparkFun" deviceset="5V" device=""/>
 <part name="R20" library="pel_dipol_comp" deviceset="RESISTOR" device="-0402" value="4K7"/>
+<part name="R21" library="pel_dipol_comp" deviceset="RESISTOR" device="-0402" value="10K"/>
 </parts>
 <sheets>
 <sheet>
@@ -6000,11 +6001,11 @@ CBUS2: TXLED#</text>
 <instance part="OK2" gate="B" x="264.16" y="365.76"/>
 <instance part="U5" gate="G$1" x="226.06" y="248.92" rot="MR0"/>
 <instance part="P+3" gate="G$1" x="228.6" y="281.94"/>
-<instance part="C5" gate="G$1" x="243.84" y="274.32" rot="R90"/>
+<instance part="C5" gate="G$1" x="248.92" y="274.32" rot="R90"/>
 <instance part="C6" gate="G$1" x="205.74" y="274.32" rot="R270"/>
 <instance part="GND13" gate="1" x="226.06" y="231.14"/>
 <instance part="GND24" gate="1" x="193.04" y="271.78"/>
-<instance part="GND25" gate="1" x="256.54" y="271.78"/>
+<instance part="GND25" gate="1" x="264.16" y="271.78"/>
 <instance part="USB1" gate="G$1" x="454.66" y="393.7" rot="MR0"/>
 <instance part="GND9" gate="1" x="462.28" y="373.38"/>
 <instance part="U$5" gate="-1" x="525.78" y="401.32"/>
@@ -6076,6 +6077,7 @@ CBUS2: TXLED#</text>
 <instance part="U$11" gate="G$1" x="149.86" y="292.1"/>
 <instance part="U$13" gate="G$1" x="223.52" y="281.94"/>
 <instance part="R20" gate="G$1" x="283.972" y="142.24" rot="R180"/>
+<instance part="R21" gate="G$1" x="243.84" y="261.62" rot="R270"/>
 </instances>
 <busses>
 </busses>
@@ -6261,7 +6263,7 @@ CBUS2: TXLED#</text>
 <segment>
 <pinref part="C5" gate="G$1" pin="2"/>
 <pinref part="GND25" gate="1" pin="GND"/>
-<wire x1="248.92" y1="274.32" x2="256.54" y2="274.32" width="0.1524" layer="91"/>
+<wire x1="254" y1="274.32" x2="264.16" y2="274.32" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="USB1" gate="G$1" pin="5"/>
@@ -6684,8 +6686,12 @@ CBUS2: TXLED#</text>
 <wire x1="228.6" y1="281.94" x2="228.6" y2="274.32" width="0.1524" layer="91"/>
 <pinref part="C5" gate="G$1" pin="1"/>
 <wire x1="228.6" y1="274.32" x2="228.6" y2="266.7" width="0.1524" layer="91"/>
-<wire x1="228.6" y1="274.32" x2="241.3" y2="274.32" width="0.1524" layer="91"/>
+<wire x1="228.6" y1="274.32" x2="243.84" y2="274.32" width="0.1524" layer="91"/>
 <junction x="228.6" y="274.32"/>
+<pinref part="R21" gate="G$1" pin="1"/>
+<wire x1="243.84" y1="274.32" x2="246.38" y2="274.32" width="0.1524" layer="91"/>
+<wire x1="243.84" y1="266.7" x2="243.84" y2="274.32" width="0.1524" layer="91"/>
+<junction x="243.84" y="274.32"/>
 </segment>
 </net>
 <net name="N$5" class="0">
@@ -7488,6 +7494,13 @@ CBUS2: TXLED#</text>
 <pinref part="D2" gate="G$1" pin="C"/>
 <pinref part="R20" gate="G$1" pin="2"/>
 <wire x1="276.86" y1="142.24" x2="278.892" y2="142.24" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$29" class="0">
+<segment>
+<pinref part="U5" gate="G$1" pin="OE"/>
+<pinref part="R21" gate="G$1" pin="2"/>
+<wire x1="241.3" y1="256.54" x2="243.84" y2="256.54" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
