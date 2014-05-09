@@ -27,7 +27,14 @@ e-mail   :  support@circuitsathome.com
 #include "ptpcallback.h"
 
 // Buffer size should NEVER be less than USB packet size!!!!!!!!!!!!!!!!!!!!!
-#define PTP_MAX_RX_BUFFER_LEN	64
+/*
+Note: PTP_MAX_RX_BUFFER_LEN was set from 64 to 256 bytes maximum.
+This matters to fit the biggest CHDK buffers with embedded script variables.
+The struct for Operation Flags is changed too (inside the PTP class). 
+Sandro Benigno
+*/
+
+#define PTP_MAX_RX_BUFFER_LEN	256 //
 #define PTP_MAX_EV_BUFFER_LEN	 8
 
 // States
@@ -91,7 +98,7 @@ protected:
 		uint16_t	txOperation	:	1;			// I->R operation if the flag is set
 		uint16_t	dataStage	:	1;			// operation has data stage if the flag is set
 		uint16_t	typeOfVoid	:	2;			// 0 - NULL, 1 - PTPReadParser/PTPDataSupplyer, 2 - WRITEPARSER, 3 - buffer pointer
-		uint16_t	dataSize	:	6;			// size of data buffer (64 bytes maximum)		
+		uint16_t	dataSize	:	8;			// size of data buffer (Set from 64 to 256 bytes maximum for bigger CHDK buffers: Sandro Benigno)		
 	};
 	typedef void (*READPARSER)(const uint16_t len, const uint8_t *pbuf, const uint32_t &offset);
 
