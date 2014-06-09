@@ -1,5 +1,5 @@
 #include "ptp_parser.h"
-
+/*
 void PTPObjHandleParser::Parse(const uint16_t len, const uint8_t *pbuf, const uint32_t &offset)
 {
   uint16_t cntdn = (uint16_t)len;
@@ -29,4 +29,4 @@ void PTPObjHandleParser::Parse(const uint16_t len, const uint8_t *pbuf, const ui
   else{
     varBuffer = inBuf;
   }
-}
+}*/

@@ -21,9 +21,8 @@ e-mail   :  support@circuitsathome.com
 #ifndef _Max_LCD_h_
 #define _Max_LCD_h_
 
-#include <inttypes.h>
-#include "Print.h"
 #include "Usb.h"
+#include "Print.h"
 
 // commands
 #define LCD_CLEARDISPLAY		0x01
@@ -63,8 +62,7 @@ e-mail   :  support@circuitsathome.com
 #define LCD_5x10DOTS			0x04
 #define LCD_5x8DOTS				0x00
 
-class Max_LCD //: public Print
-{
+class Max_LCD : public Print {
         USB *pUsb;
 
 public:
@@ -87,8 +85,14 @@ public:
         void noAutoscroll();
         void createChar(uint8_t, uint8_t[]);
         void setCursor(uint8_t, uint8_t);
-        virtual void write(uint8_t);
         void command(uint8_t);
+
+#if defined(ARDUINO) && ARDUINO >=100
+        virtual size_t write(uint8_t);
+        using Print::write;
+#else
+        virtual void write(uint8_t);
+#endif
 
 private:
         void sendbyte(uint8_t val);

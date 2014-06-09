@@ -17,24 +17,6 @@ e-mail   :  support@circuitsathome.com
 #if !defined(__HIDDESCRIPTORPARSER_H__)
 #define __HIDDESCRIPTORPARSER_H__
 
-#include <inttypes.h>
-#include <avr/pgmspace.h>
-#include "avrpins.h"
-#include "max3421e.h"
-#include "usbhost.h"
-#include "usb_ch9.h"
-#include "Usb.h"
-
-#if defined(ARDUINO) && ARDUINO >=100
-#include "Arduino.h"
-#else
-#include <WProgram.h>
-#endif
-
-#include "printhex.h"
-#include "hexdump.h"
-#include "message.h"
-#include "confdescparser.h"
 #include "hid.h"
 
 class ReportDescParserBase : public USBReadParser {
@@ -119,7 +101,7 @@ protected:
         MultiValueBuffer theBuffer;
         MultiByteValueParser valParser;
         ByteSkipper theSkipper;
-        uint8_t varBuffer[sizeof(USB_CONFIGURATION_DESCRIPTOR)];
+        uint8_t varBuffer[sizeof (USB_CONFIGURATION_DESCRIPTOR)];
 
         uint8_t itemParseState; // Item parser state variable
         uint8_t itemSize; // Item size

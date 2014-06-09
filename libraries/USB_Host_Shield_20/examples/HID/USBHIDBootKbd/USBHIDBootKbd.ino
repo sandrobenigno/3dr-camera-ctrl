@@ -1,19 +1,9 @@
-#include <avr/pgmspace.h>
-
-#include <avrpins.h>
-#include <max3421e.h>
-#include <usbhost.h>
-#include <usb_ch9.h>
-#include <Usb.h>
-#include <usbhub.h>
-#include <avr/pgmspace.h>
-#include <address.h>
 #include <hidboot.h>
-
-#include <printhex.h>
-#include <message.h>
-#include <hexdump.h>
-#include <parsetools.h>
+#include <usbhub.h>
+// Satisfy IDE, which only needs to see the include statment in the ino.
+#ifdef dobogusinclude
+#include <spi4teensy3.h>
+#endif
 
 class KbdRptParser : public KeyboardReportParser
 {
@@ -37,7 +27,7 @@ void KbdRptParser::PrintKey(uint8_t m, uint8_t key)
     Serial.print((mod.bmLeftGUI    == 1) ? "G" : " ");
 
     Serial.print(" >");
-    D_PrintHex<uint8_t>(key, 0x80);
+    PrintHex<uint8_t>(key, 0x80);
     Serial.print("< ");
 
     Serial.print((mod.bmRightCtrl   == 1) ? "C" : " ");
@@ -115,6 +105,7 @@ KbdRptParser Prs;
 void setup()
 {
     Serial.begin( 115200 );
+    while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
     Serial.println("Start");
 
     if (Usb.Init() == -1)

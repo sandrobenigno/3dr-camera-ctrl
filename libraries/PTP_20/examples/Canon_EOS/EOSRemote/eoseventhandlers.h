@@ -1,10 +1,7 @@
 #ifndef __EOSEVENTHANDLERS_H__
 #define __EOSEVENTHANDLERS_H__
 
-#include <inttypes.h>
-#include <avr/pgmspace.h>
-#include <message.h>
-#include <parsetools.h>
+#include <Usb.h>
 #include <canoneos.h>
 #include <eoseventparser.h>
 

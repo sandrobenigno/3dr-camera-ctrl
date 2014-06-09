@@ -25,7 +25,11 @@ Note: The PTP library used here was modified by the author.
 
 class PSStateHandlersCHDK : public PTPStateHandlers
 {
+private:
+  bool _autostart;
 public:
+  void setAutoStart(bool _val);
+  bool getAutoStart();
       virtual void OnSessionOpenedState(PTP *ptp);
 };
 
@@ -33,9 +37,8 @@ class ArduCAM_PTP: public CanonPS
 {
   public:
   
-    ArduCAM_PTP(USB *pusb, PTPStateHandlers *s);
-  
-    uint16_t Initialize(bool binit);
+    ArduCAM_PTP(USB *pusb, PSStateHandlersCHDK *s, bool astart);
+
     uint16_t InitCHDK(bool binit);
     uint16_t ExecScriptCHDK(char *script);
     /*uint16_t ReadMsgScriptsCHDK();*/

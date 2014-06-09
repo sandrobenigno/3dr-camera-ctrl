@@ -14,24 +14,17 @@ Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
-#if !defined(__PRINTHEX_H__)
-#define __PRINTHEX_H__
 
-#if defined(ARDUINO) && ARDUINO >=100
-#include "Arduino.h"
+#if !defined(_usb_h_) || defined(__PRINTHEX_H__)
+#error "Never include printhex.h directly; include Usb.h instead"
 #else
-#include <WProgram.h>
-#endif
-
-#ifndef USB_HOST_SERIAL
-#define USB_HOST_SERIAL Serial
-#endif
+#define __PRINTHEX_H__
 
 void E_Notifyc(char c, int lvl);
 
 template <class T>
 void PrintHex(T val, int lvl) {
-        int num_nibbles = sizeof(T) * 2;
+        int num_nibbles = sizeof (T) * 2;
 
         do {
                 char v = 48 + (((val >> (num_nibbles - 1) * 4)) & 0x0f);
@@ -42,7 +35,7 @@ void PrintHex(T val, int lvl) {
 
 template <class T>
 void PrintBin(T val, int lvl) {
-        for(T mask = (((T) 1) << ((sizeof(T) << 3) - 1)); mask; mask >>= 1)
+        for(T mask = (((T)1) << ((sizeof (T) << 3) - 1)); mask; mask >>= 1)
                 if(val & mask)
                         E_Notifyc('1', lvl);
                 else
@@ -51,7 +44,7 @@ void PrintBin(T val, int lvl) {
 
 template <class T>
 void SerialPrintHex(T val) {
-        int num_nibbles = sizeof(T) * 2;
+        int num_nibbles = sizeof (T) * 2;
 
         do {
                 char v = 48 + (((val >> (num_nibbles - 1) * 4)) & 0x0f);
@@ -62,7 +55,7 @@ void SerialPrintHex(T val) {
 
 template <class T>
 void PrintHex2(Print *prn, T val) {
-        T mask = (((T) 1) << (((sizeof(T) << 1) - 1) << 2));
+        T mask = (((T)1) << (((sizeof (T) << 1) - 1) << 2));
 
         while(mask > 1) {
                 if(val < mask)
@@ -70,19 +63,19 @@ void PrintHex2(Print *prn, T val) {
 
                 mask >>= 4;
         }
-        prn->print((T) val, HEX);
+        prn->print((T)val, HEX);
 }
 
 template <class T> void D_PrintHex(T val, int lvl) {
 #ifdef DEBUG_USB_HOST
-        PrintHex<T>(val, lvl);
+        PrintHex<T > (val, lvl);
 #endif
 }
 
 template <class T>
 void D_PrintBin(T val, int lvl) {
 #ifdef DEBUG_USB_HOST
-        PrintBin<T>(val, lvl);
+        PrintBin<T > (val, lvl);
 #endif
 }
 

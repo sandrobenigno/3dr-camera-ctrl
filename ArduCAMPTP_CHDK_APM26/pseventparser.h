@@ -1,13 +1,10 @@
 #ifndef __PSEVENTPARSER_H__
 #define __PSEVENTPARSER_H__
 
-#include <inttypes.h>
-#include <avr/pgmspace.h>
-#include <message.h>
-#include <parsetools.h>
-#include <canonps.h>
-#include "ptp_from_chdk.h"
+#include "Usb.h"
 #include "ptpdebug.h"
+#include <canonps.h>
+//#include "ptp_from_chdk.h"
 
 
 class PSEventParser : public PTPReadParser

@@ -1,12 +1,9 @@
-#include <avrpins.h>
-#include <max3421e.h>
-#include <usbhost.h>
-#include <usb_ch9.h>
-#include <Usb.h>
 #include <usbhub.h>
-#include <avr/pgmspace.h>
-#include <address.h>
 #include "pgmstrings.h"
+// Satisfy IDE, which only needs to see the include statment in the ino.
+#ifdef dobogusinclude
+#include <spi4teensy3.h>
+#endif
 
 USB     Usb;
 USBHub  Hub1(&Usb);
@@ -19,7 +16,7 @@ uint32_t next_time;
 void PrintAllAddresses(UsbDevice *pdev)
 {
     UsbDeviceAddress adr;
-    adr.devAddress = pdev->address;
+    adr.devAddress = pdev->address.devAddress;
     Serial.print("\r\nAddr:");
     Serial.print(adr.devAddress, HEX);
     Serial.print("(");
@@ -48,13 +45,14 @@ void PrintAddress(uint8_t addr)
 void setup()
 {
   Serial.begin( 115200 );
+  while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
   Serial.println("Start");
 
   if (Usb.Init() == -1)
       Serial.println("OSC did not start.");
-      
+
   delay( 200 );
-  
+
   next_time = millis() + 10000;
 }
 
@@ -64,19 +62,19 @@ void PrintDescriptors(uint8_t addr)
 {
     uint8_t rcode = 0;
     byte num_conf = 0;
-    
+
     rcode = getdevdescr( (byte)addr, num_conf );
-    if( rcode ) 
+    if( rcode )
     {
       printProgStr(Gen_Error_str);
       print_hex( rcode, 8 );
     }
     Serial.print("\r\n");
-    
+
     for (int i=0; i<num_conf; i++)
     {
         rcode = getconfdescr( addr, i );                 // get configuration descriptor
-        if( rcode ) 
+        if( rcode )
         {
           printProgStr(Gen_Error_str);
           print_hex(rcode, 8);
@@ -88,27 +86,27 @@ void PrintDescriptors(uint8_t addr)
 void PrintAllDescriptors(UsbDevice *pdev)
 {
     Serial.println("\r\n");
-    print_hex(pdev->address, 8);
+    print_hex(pdev->address.devAddress, 8);
     Serial.println("\r\n--");
-    PrintDescriptors( pdev->address );
+    PrintDescriptors( pdev->address.devAddress );
 }
 
 void loop()
 {
   Usb.Task();
-  
+
   if( Usb.getUsbTaskState() == USB_STATE_RUNNING )
-  {  
+  {
     if (millis() >= next_time)
     {
-        Usb.ForEachUsbDevice(&PrintAllDescriptors);      
+        Usb.ForEachUsbDevice(&PrintAllDescriptors);
         Usb.ForEachUsbDevice(&PrintAllAddresses);
-        
+
         while( 1 );                           //stop
     }
-  }    
+  }
 }
- 
+
 byte getdevdescr( byte addr, byte &num_conf )
 {
   USB_DEVICE_DESCRIPTOR buf;
@@ -124,7 +122,7 @@ byte getdevdescr( byte addr, byte &num_conf )
   print_hex( buf.bDescriptorType, 8 );
   printProgStr(Dev_Version_str);
   print_hex( buf.bcdUSB, 16 );
-  printProgStr(Dev_Class_str); 
+  printProgStr(Dev_Class_str);
   print_hex( buf.bDeviceClass, 8 );
   printProgStr(Dev_Subclass_str);
   print_hex( buf.bDeviceSubClass, 8 );
@@ -149,46 +147,46 @@ byte getdevdescr( byte addr, byte &num_conf )
   num_conf = buf.bNumConfigurations;
   return( 0 );
 }
- 
+
 void printhubdescr(uint8_t *descrptr, uint8_t addr)
 {
     HubDescriptor  *pHub = (HubDescriptor*) descrptr;
     uint8_t        len = *((uint8_t*)descrptr);
-    
+
     printProgStr(PSTR("\r\n\r\nHub Descriptor:\r\n"));
     printProgStr(PSTR("bDescLength:\t\t"));
     Serial.println(pHub->bDescLength, HEX);
-    
+
     printProgStr(PSTR("bDescriptorType:\t"));
     Serial.println(pHub->bDescriptorType, HEX);
-    
+
     printProgStr(PSTR("bNbrPorts:\t\t"));
     Serial.println(pHub->bNbrPorts, HEX);
-    
+
     printProgStr(PSTR("LogPwrSwitchMode:\t"));
     Serial.println(pHub->LogPwrSwitchMode, BIN);
-    
+
     printProgStr(PSTR("CompoundDevice:\t\t"));
     Serial.println(pHub->CompoundDevice, BIN);
-    
+
     printProgStr(PSTR("OverCurrentProtectMode:\t"));
     Serial.println(pHub->OverCurrentProtectMode, BIN);
-    
+
     printProgStr(PSTR("TTThinkTime:\t\t"));
     Serial.println(pHub->TTThinkTime, BIN);
-    
+
     printProgStr(PSTR("PortIndicatorsSupported:"));
     Serial.println(pHub->PortIndicatorsSupported, BIN);
-    
+
     printProgStr(PSTR("Reserved:\t\t"));
     Serial.println(pHub->Reserved, HEX);
 
     printProgStr(PSTR("bPwrOn2PwrGood:\t\t"));
     Serial.println(pHub->bPwrOn2PwrGood, HEX);
-    
+
     printProgStr(PSTR("bHubContrCurrent:\t"));
     Serial.println(pHub->bHubContrCurrent, HEX);
-    
+
     for (uint8_t i=7; i<len; i++)
         print_hex(descrptr[i], 8);
 
@@ -231,7 +229,7 @@ byte getconfdescr( byte addr, byte conf )
       default:
         printunkdescr( buf_ptr );
         break;
-        }//switch( descr_type  
+        }//switch( descr_type
     buf_ptr = ( buf_ptr + descr_length );    //advance buffer pointer
   }//while( buf_ptr <=...
   return( 0 );
@@ -242,12 +240,12 @@ byte getconfdescr( byte addr, byte conf )
 void print_hex(int v, int num_places)
 {
   int mask=0, n, num_nibbles, digit;
- 
+
   for (n=1; n<=num_places; n++) {
     mask = (mask << 1) | 0x0001;
   }
   v = v & mask; // truncate v to specified number of places
- 
+
   num_nibbles = num_places / 4;
   if ((num_places % 4) != 0) {
     ++num_nibbles;
@@ -255,7 +253,7 @@ void print_hex(int v, int num_places)
   do {
     digit = ((v >> (num_nibbles-1) * 4)) & 0x0f;
     Serial.print(digit, HEX);
-  } 
+  }
   while(--num_nibbles);
 }
 /* function to print configuration descriptor */
@@ -311,7 +309,7 @@ void printepdescr( uint8_t* descr_ptr )
   print_hex( ep_ptr->wMaxPacketSize, 16 );
   printProgStr(End_Interval_str);
   print_hex( ep_ptr->bInterval, 8 );
-  
+
   return;
 }
 /*function to print unknown descriptor */
@@ -331,8 +329,8 @@ void printunkdescr( uint8_t* descr_ptr )
     descr_ptr++;
   }
 }
- 
- 
+
+
 /* Print a string from Program Memory directly to save RAM */
 void printProgStr(const prog_char str[])
 {

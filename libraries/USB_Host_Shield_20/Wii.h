@@ -14,9 +14,7 @@
  Web      :  http://www.tkjelectronics.com
  e-mail   :  kristianl@tkjelectronics.com
 
- IR camera support added by:
- Allan Glover
- adglover9.81@gmail.com
+ IR camera support added by Allan Glover (adglover9.81@gmail.com) and Kristian Lauszus
  */
 
 #ifndef _wii_h_
@@ -25,63 +23,16 @@
 #include "BTD.h"
 #include "controllerEnums.h"
 
-/** You will have to uncomment this to use the IR camera */
-//#define WIICAMERA
-
-/* Bluetooth L2CAP states for L2CAP_task() */
-#define L2CAP_WAIT                      0
-
-// These states are used if the Wiimote is the host
-#define L2CAP_CONTROL_SUCCESS           1
-#define L2CAP_INTERRUPT_SETUP           2
-
-// These states are used if the Arduino is the host
-#define L2CAP_CONTROL_CONNECT_REQUEST   3
-#define L2CAP_CONTROL_CONFIG_REQUEST    4
-#define L2CAP_INTERRUPT_CONNECT_REQUEST 5
-
-#define L2CAP_INTERRUPT_CONFIG_REQUEST  6
-
-#define L2CAP_CHECK_MOTION_PLUS_STATE   7
-#define L2CAP_CHECK_EXTENSION_STATE     8
-#define L2CAP_INIT_MOTION_PLUS_STATE    9
-#define L2CAP_LED_STATE                 10
-#define L2CAP_DONE                      11
-
-#define L2CAP_INTERRUPT_DISCONNECT      12
-#define L2CAP_CONTROL_DISCONNECT        13
-
-/* L2CAP event flags */
-#define L2CAP_FLAG_CONTROL_CONNECTED                0x001
-#define L2CAP_FLAG_INTERRUPT_CONNECTED              0x002
-#define L2CAP_FLAG_CONFIG_CONTROL_SUCCESS           0x004
-#define L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS         0x008
-#define L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE      0x040
-#define L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE    0x080
-#define L2CAP_FLAG_CONNECTION_CONTROL_REQUEST       0x100
-#define L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST     0x200
-
-/* Macros for L2CAP event flag tests */
-#define l2cap_connected_control_flag (l2cap_event_flag & L2CAP_FLAG_CONTROL_CONNECTED)
-#define l2cap_connected_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_INTERRUPT_CONNECTED)
-#define l2cap_config_success_control_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_CONTROL_SUCCESS)
-#define l2cap_config_success_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS)
-#define l2cap_disconnect_response_control_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE)
-#define l2cap_disconnect_response_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE)
-#define l2cap_connection_request_control_flag (l2cap_event_flag & L2CAP_FLAG_CONNECTION_CONTROL_REQUEST)
-#define l2cap_connection_request_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST)
-
 /* Wii event flags */
-#define WII_FLAG_MOTION_PLUS_CONNECTED              0x400
-#define WII_FLAG_NUNCHUCK_CONNECTED                 0x800
+#define WII_FLAG_MOTION_PLUS_CONNECTED  0x01
+#define WII_FLAG_NUNCHUCK_CONNECTED     0x02
 
-#define motion_plus_connected_flag (l2cap_event_flag & WII_FLAG_MOTION_PLUS_CONNECTED)
-#define nunchuck_connected_flag (l2cap_event_flag & WII_FLAG_NUNCHUCK_CONNECTED)
-
-#define PAIR    1
+#define wii_check_flag(flag)  (wii_event_flag & (flag))
+#define wii_set_flag(flag)  (wii_event_flag |= (flag))
+#define wii_clear_flag(flag)  (wii_event_flag &= ~(flag))
 
 /** Enum used to read the joystick on the Nunchuck. */
-enum Hat {
+enum HatEnum {
         /** Read the x-axis on the Nunchuck joystick. */
         HatX = 0,
         /** Read the y-axis on the Nunchuck joystick. */
@@ -109,7 +60,7 @@ public:
          * @param ACLData Incoming acldata.
          */
         virtual void ACLData(uint8_t* ACLData);
-        /** Used to run part of the state maschine. */
+        /** Used to run part of the state machine. */
         virtual void Run();
         /** Use this to reset the service. */
         virtual void Reset();
@@ -125,36 +76,41 @@ public:
          *
          * So you instance if you need to increase a variable once you would use getButtonClick(Button b),
          * but if you need to drive a robot forward you would use getButtonPress(Button b).
+         * @param  b          ::ButtonEnum to read.
+         * @return            getButtonPress(ButtonEnum b) will return a true as long as a button is held down, while getButtonClick(ButtonEnum b) will return true once for each button press.
          */
-        bool getButtonPress(Button b);
-        bool getButtonClick(Button b);
+        bool getButtonPress(ButtonEnum b);
+        bool getButtonClick(ButtonEnum b);
         /**@}*/
 
         /** @name Wii Controller functions */
+
         /** Call this to start the paring sequence with a controller */
         void pair(void) {
                 if(pBtd)
                         pBtd->pairWithWiimote();
-        }
+        };
         /**
          * Used to read the joystick of the Nunchuck.
          * @param  a Either ::HatX or ::HatY.
          * @return   Return the analog value in the range from approximately 25-230.
          */
-        uint8_t getAnalogHat(Hat a);
+        uint8_t getAnalogHat(HatEnum a);
         /**
          * Used to read the joystick of the Wii U Pro Controller.
          * @param  a Either ::LeftHatX, ::LeftHatY, ::RightHatX or ::RightHatY.
          * @return   Return the analog value in the range from approximately 800-3200.
          */
-        uint16_t getAnalogHat(AnalogHat a);
+        uint16_t getAnalogHat(AnalogHatEnum a);
 
         /**
          * Pitch calculated from the Wiimote. A complimentary filter is used if the Motion Plus is connected.
          * @return Pitch in the range from 0-360.
          */
         double getPitch() {
-                return pitch;
+                if(motionPlusConnected)
+                        return compPitch;
+                return getWiimotePitch();
         };
 
         /**
@@ -162,7 +118,9 @@ public:
          * @return Roll in the range from 0-360.
          */
         double getRoll() {
-                return roll;
+                if(motionPlusConnected)
+                        return compRoll;
+                return getWiimoteRoll();
         };
 
         /**
@@ -185,47 +143,45 @@ public:
         void setRumbleToggle();
 
         /**
-         * Set LED value without using the ::LED enum.
-         * @param value See: ::LED enum.
+         * Set LED value without using the ::LEDEnum.
+         * @param value See: ::LEDEnum.
          */
         void setLedRaw(uint8_t value);
+
+        /** Turn all LEDs off. */
+        void setLedOff() {
+                setLedRaw(0);
+        };
         /**
-         * Turn the specific ::LED off.
-         * @param a The ::LED to turn off.
+         * Turn the specific ::LEDEnum off.
+         * @param a The ::LEDEnum to turn off.
          */
-        void setLedOff(LED a);
+        void setLedOff(LEDEnum a);
         /**
-         * Turn the specific ::LED on.
-         * @param a The ::LED to turn on.
+         * Turn the specific ::LEDEnum on.
+         * @param a The ::LEDEnum to turn on.
          */
-        void setLedOn(LED a);
+        void setLedOn(LEDEnum a);
         /**
-         * Toggle the specific ::LED.
-         * @param a The ::LED to toggle.
+         * Toggle the specific ::LEDEnum.
+         * @param a The ::LEDEnum to toggle.
          */
-        void setLedToggle(LED a);
+        void setLedToggle(LEDEnum a);
         /**
          * This will set the LEDs, so the user can see which connections are active.
          *
-         * The first ::LED indicate that the Wiimote is connected,
-         *
-         * the second ::LED indicate indicate that a Motion Plus is also connected
-         *
-         * the third ::LED will indicate that a Nunchuck controller is also connected.
+         * The first ::LEDEnum indicate that the Wiimote is connected,
+         * the second ::LEDEnum indicate indicate that a Motion Plus is also connected
+         * the third ::LEDEnum will indicate that a Nunchuck controller is also connected.
          */
         void setLedStatus();
 
         /**
-         * Call this to update battery level and Wiimote state
-         */
-        void statusRequest();
-        /**
          * Return the battery level of the Wiimote.
          * @return The battery level in the range 0-255.
          */
-        uint8_t getBatteryLevel() {
-                return batteryLevel;
-        };
+        uint8_t getBatteryLevel();
+
         /**
          * Return the Wiimote state.
          * @return See: http://wiibrew.org/wiki/Wiimote#0x20:_Status.
@@ -257,22 +213,33 @@ public:
         /* IMU Data, might be usefull if you need to do something more advanced than just calculating the angle */
 
         /**@{*/
+
         /** Pitch and roll calculated from the accelerometer inside the Wiimote. */
-        double wiimotePitch;
-        double wiimoteRoll;
+        double getWiimotePitch() {
+                return (atan2(accYwiimote, accZwiimote) + PI) * RAD_TO_DEG;
+        };
+
+        double getWiimoteRoll() {
+                return (atan2(accXwiimote, accZwiimote) + PI) * RAD_TO_DEG;
+        };
         /**@}*/
 
         /**@{*/
+
         /** Pitch and roll calculated from the accelerometer inside the Nunchuck. */
-        double nunchuckPitch;
-        double nunchuckRoll;
+        double getNunchuckPitch() {
+                return (atan2(accYnunchuck, accZnunchuck) + PI) * RAD_TO_DEG;
+        };
+
+        double getNunchuckRoll() {
+                return (atan2(accXnunchuck, accZnunchuck) + PI) * RAD_TO_DEG;
+        };
         /**@}*/
 
         /**@{*/
         /** Accelerometer values used to calculate pitch and roll. */
-        int16_t accX;
-        int16_t accY;
-        int16_t accZ;
+        int16_t accXwiimote, accYwiimote, accZwiimote;
+        int16_t accXnunchuck, accYnunchuck, accZnunchuck;
         /**@}*/
 
         /* Variables for the gyro inside the Motion Plus */
@@ -313,7 +280,7 @@ public:
 
 #ifdef WIICAMERA
         /** @name Wiimote IR camera functions
-         * You will have to uncomment #WIICAMERA in Wii.h to use the IR camera.
+         * You will have to set ::ENABLE_WII_IR_CAMERA in settings.h to 1 in order use the IR camera.
          */
         /** Initialises the camera as per the steps from: http://wiibrew.org/wiki/Wiimote#IR_Camera */
         void IRinitialize();
@@ -420,7 +387,7 @@ public:
          * @return     True if it's enabled, false if not.
          */
         bool isIRCameraEnabled() {
-                return(wiiState & 0x08);
+                return (wiiState & 0x08);
         };
         /**@}*/
 #endif
@@ -444,7 +411,8 @@ private:
 
         /* Variables used by high level L2CAP task */
         uint8_t l2cap_state;
-        uint16_t l2cap_event_flag; // l2cap flags of received Bluetooth events
+        uint32_t l2cap_event_flag; // L2CAP flags of received Bluetooth events
+        uint8_t wii_event_flag; // Used for Wii flags
 
         uint32_t ButtonState;
         uint32_t OldButtonState;
@@ -456,6 +424,8 @@ private:
         uint16_t stateCounter;
         bool unknownExtensionConnected;
         bool extensionConnected;
+        bool checkExtension; // Set to false when getBatteryLevel() is called otherwise if should be true
+        bool motionPlusInside; // True if it's a new Wiimote with the Motion Plus extension build into it
 
         /* L2CAP Channels */
         uint8_t control_scid[2]; // L2CAP source CID for HID_Control
@@ -472,6 +442,8 @@ private:
         void initExtension1();
         void initExtension2();
 
+        void statusRequest(); // Used to update the Wiimote state and battery level
+
         void readData(uint32_t offset, uint16_t size, bool EEPROM);
         void readExtensionType();
         void readCalData();
@@ -480,8 +452,8 @@ private:
         void initMotionPlus();
         void activateMotionPlus();
 
-        double pitch; // Fusioned angle using a complimentary filter if the Motion Plus is connected
-        double roll; // Fusioned angle using a complimentary filter if the Motion Plus is connected
+        double compPitch; // Fusioned angle using a complimentary filter if the Motion Plus is connected
+        double compRoll; // Fusioned angle using a complimentary filter if the Motion Plus is connected
 
         bool activateNunchuck;
         bool motionValuesReset; // This bool is true when the gyro values has been reset
@@ -491,7 +463,7 @@ private:
         uint8_t batteryLevel;
 
 #ifdef WIICAMERA
-        /* Private function and variables for the readings from teh IR Camera */
+        /* Private function and variables for the readings from the IR Camera */
         void enableIRCamera1(); // Sets bit 2 of output report 13
         void enableIRCamera2(); // Sets bit 2 of output report 1A
         void writeSensitivityBlock1();

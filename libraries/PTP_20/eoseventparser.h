@@ -17,8 +17,7 @@ e-mail   :  support@circuitsathome.com
 #ifndef __EOSEVENTPARSER_H__
 #define __EOSEVENTPARSER_H__
 
-#include <inttypes.h>
-#include <parsetools.h>
+#include <Usb.h>
 #include <canoneos.h>
 
 struct EOSEvent
@@ -63,7 +62,7 @@ class EOSEventParser : public PTPReadParser
 	void InitEOSEventStruct();
 
 public:
-	EOSEventParser(EOSEventHandlers *p) : 
+	EOSEventParser(EOSEventHandlers *p) :
 		pHandler(p),
 		constInitialEventCode(0xFFFF),
 		nStage(0),
@@ -72,8 +71,8 @@ public:
 		varBuffer(0),
 		paramCountdown(0),
 		paramsChanged(0)
-		{ 
-			theBuffer.pValue = &varBuffer; 
+		{
+			theBuffer.pValue = &varBuffer;
 		};
 
 	void Reset()

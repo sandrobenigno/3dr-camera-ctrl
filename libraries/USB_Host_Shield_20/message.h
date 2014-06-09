@@ -14,23 +14,13 @@ Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
-#if !defined(__MESSAGE_H__)
+#if !defined(_usb_h_) || defined(__MESSAGE_H__)
+#error "Never include message.h directly; include Usb.h instead"
+#else
 #define __MESSAGE_H__
-
-// uncomment to activate
-//#define DEBUG_USB_HOST
-
-
-#ifndef USB_HOST_SERIAL
-#define USB_HOST_SERIAL Serial
-#endif
-
-#include <inttypes.h>
-#include <avr/pgmspace.h>
 
 extern int UsbDEBUGlvl;
 
-#include "printhex.h"
 void E_Notify(char const * msg, int lvl);
 void E_Notify(uint8_t b, int lvl);
 void E_NotifyStr(char const * msg, int lvl);
@@ -43,6 +33,7 @@ void E_Notifyc(char c, int lvl);
 void NotifyFailGetDevDescr(uint8_t reason);
 void NotifyFailSetDevTblEntry(uint8_t reason);
 void NotifyFailGetConfDescr(uint8_t reason);
+void NotifyFailSetConfDescr(uint8_t reason);
 void NotifyFailGetDevDescr(void);
 void NotifyFailSetDevTblEntry(void);
 void NotifyFailGetConfDescr(void);
@@ -83,7 +74,5 @@ void ErrorMessage(char const * msg, ERROR_TYPE rcode = 0) {
         Notify(PSTR("\r\n"), 0x80);
 #endif
 }
-
-#include "hexdump.h"
 
 #endif // __MESSAGE_H__

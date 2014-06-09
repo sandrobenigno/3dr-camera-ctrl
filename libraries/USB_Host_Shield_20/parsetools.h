@@ -14,20 +14,11 @@ Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
-#if !defined(__PARSETOOLS_H__)
-#define __PARSETOOLS_H__
 
-#include <inttypes.h>
-#include <avr/pgmspace.h>
-#include "message.h"
-//#include "printhex.h"
-//#include "hexdump.h"
-
-#if defined(ARDUINO) && ARDUINO >=100
-#include "Arduino.h"
+#if !defined(_usb_h_) || defined(__PARSETOOLS_H__)
+#error "Never include parsetools.h directly; include Usb.h instead"
 #else
-#include <WProgram.h>
-#endif
+#define __PARSETOOLS_H__
 
 struct MultiValueBuffer {
         uint8_t valueSize;
@@ -49,7 +40,7 @@ public:
         };
 
         void Initialize(MultiValueBuffer * const pbuf) {
-                pBuf = (uint8_t*) pbuf->pValue;
+                pBuf = (uint8_t*)pbuf->pValue;
                 countDown = valueSize = pbuf->valueSize;
         };
 
@@ -67,7 +58,7 @@ public:
         };
 
         void Initialize(MultiValueBuffer *pbuf) {
-                pBuf = (uint8_t*) pbuf->pValue;
+                pBuf = (uint8_t*)pbuf->pValue;
                 countDown = 0;
         };
 
@@ -82,7 +73,7 @@ public:
                                 if(!countDown)
                                         nStage = 0;
                 };
-                return(!countDown);
+                return (!countDown);
         };
 };
 

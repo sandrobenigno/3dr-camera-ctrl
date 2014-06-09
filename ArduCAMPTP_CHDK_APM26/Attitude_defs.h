@@ -18,6 +18,19 @@ static float drone_lon = 0.0;
 static uint8_t drone_fix_type = 0.0;
 static uint8_t drone_satellites_visible = 0;
 
+//FC IN CHANNELS
+static int16_t drone_chan[4] = {0,0,0,0};//IN5, IN6, IN7, and IN8
+
+//Mapped RC IN are compared to Previous State Variables
+//Won't be needed when DIGICAM messages are implemented
+//because those messages are not sent in a loop like RC IN.
+static int16_t prev_lenses_in = 0;
+static int16_t prev_zoom_in = 0;
+static int16_t prev_flock_in = 0;
+
+//FC OUT CHANNELS
+static int16_t drone_servo[2] = {0,0};//RC7 and RC8
+
 /*
 char* geoData(float lat, float lon, float alt_asl, int16_t pitch, int16_t roll, float heading){
   char _buffer[70];

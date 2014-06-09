@@ -1,13 +1,5 @@
-#include <avrpins.h>
-#include <max3421e.h>
-#include <usbhost.h>
-#include <usb_ch9.h>
-#include <Usb.h>
-#include <usbhub.h>
-#include <avr/pgmspace.h>
-#include <address.h>
-
 #include <adk.h>
+#include <usbhub.h>
 
 USB Usb;
 
@@ -21,6 +13,7 @@ ADK adk(&Usb,"Circuits@Home, ltd.",
 void setup()
 {
 	Serial.begin(115200);
+	while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
 	Serial.println("\r\nADK demo start");
         
         if (Usb.Init() == -1) {

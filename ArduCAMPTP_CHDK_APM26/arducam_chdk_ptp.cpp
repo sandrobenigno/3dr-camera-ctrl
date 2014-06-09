@@ -16,19 +16,25 @@ Note: The PTP library used here was modified by the author.
       The CHDK PTP Transaction has a wider RX buffer (reflected as well on the dataSize flag).
 */
 
+#include <FastSerial.h>
 #include "arducam_chdk_ptp.h"
 
 void PSStateHandlersCHDK::OnSessionOpenedState(PTP *ptp)
 {	
-	if (FAILED(((ArduCAM_PTP*)ptp)->InitCHDK(true)) )
+	if(getAutoStart()){
+            if (FAILED(((ArduCAM_PTP*)ptp)->InitCHDK(true)) )
 		PTPTRACE("Initialization error\r\n");
-	
+	}
 	ptp->SetState(PTP_STATE_DEVICE_INITIALIZED);
 }
 
-ArduCAM_PTP::ArduCAM_PTP(USB *pusb, PTPStateHandlers *s)
+void PSStateHandlersCHDK::setAutoStart(bool _val){_autostart = _val;}
+bool PSStateHandlersCHDK::getAutoStart(){return _autostart;}
+
+ArduCAM_PTP::ArduCAM_PTP(USB *pusb, PSStateHandlersCHDK *s, bool astart)
 : CanonPS(pusb, s)
 {
+  s->setAutoStart(astart);
 }
 
 //Event Parser
@@ -76,7 +82,9 @@ uint16_t ArduCAM_PTP::ExecScriptCHDK(char* script)
   */
   if ( (ptp_error = Transaction(PTP_OC_CHDK, &flags, params, (char*)script)) != PTP_RC_OK)
             PTPTRACE2("Executing CHDK script error:", ptp_error);
+#ifdef PTPREPORT
   Serial.print("Received: ");
   Serial.println(script);
+#endif
   return ptp_error;
 }

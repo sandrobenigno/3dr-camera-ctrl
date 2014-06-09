@@ -17,9 +17,6 @@ e-mail   :  support@circuitsathome.com
 #ifndef __PTP_H__
 #define __PTP_H__
 
-#include <inttypes.h>
-#include <avr/pgmspace.h>
-#include <Max3421e.h>
 #include <Usb.h>
 #include "ptpconst.h"
 #include "ptpmsgstr.h"
@@ -27,14 +24,22 @@ e-mail   :  support@circuitsathome.com
 #include "ptpcallback.h"
 
 // Buffer size should NEVER be less than USB packet size!!!!!!!!!!!!!!!!!!!!!
-/*
-Note: PTP_MAX_RX_BUFFER_LEN was set from 64 to 256 bytes maximum.
-This matters to fit the biggest CHDK buffers with embedded script variables.
-The struct for Operation Flags is changed too (inside the PTP class). 
-Sandro Benigno
-*/
 
-#define PTP_MAX_RX_BUFFER_LEN	256 //
+/*
+From Sandro Benigno:
+On CHDK implementaion PTP_MAX_RX_BUFFER_LEN may need to be expanded to 256 bytes.
+The OperFlags struct needs to follow that change. 
+That is mandatory if running special CHDK script-loading with wide arguments
+
+Uncomment the line below to enable all those changes:
+*/
+#define CHDK_EXTRA_MAX_RX_BUFFER 1
+
+#ifdef CHDK_EXTRA_MAX_RX_BUFFER
+	#define PTP_MAX_RX_BUFFER_LEN	256
+#else
+  #define PTP_MAX_RX_BUFFER_LEN	256
+#endif
 #define PTP_MAX_EV_BUFFER_LEN	 8
 
 // States
@@ -91,15 +96,31 @@ protected:
 
 	EpInfo				epInfo[4];
 
-	struct OperFlags
+#ifdef CHDK_EXTRA_MAX_RX_BUFFER
+	struct OperFlags //24bit allocated struct
+	{
+		uint8_t	opParams	:	3;			// 7	- maximum number of operation parameters
+		uint8_t	rsParams	:	3;			// 7	- maximum number of response parameters
+		uint8_t	txOperation	:	1;			// I->R operation if the flag is set
+		uint8_t	dataStage	:	1;			// operation has data stage if the flag is set
+		uint8_t	typeOfVoid	:	2;			// 0 - NULL, 1 - PTPReadParser/PTPDataSupplyer, 2 - WRITEPARSER, 3 - buffer pointer
+		uint8_t	dataSize	:	8;			// size of data buffer (changed from 6 to 8 bit)
+		//Sandro Benigno: Here OperFlags is allocating 3 bytes = 24bit
+		//So the "dataSize" flag informs sizes from 0 to 2^8-1 (during CHDK data stage)
+		//Special script-loadings are demanding PTP_MAX_RX_BUFFER_LEN at 256 bytes
+	};
+#else
+	struct OperFlags //16bit allocated struct
 	{
 		uint16_t	opParams	:	3;			// 7	- maximum number of operation parameters
 		uint16_t	rsParams	:	3;			// 7	- maximum number of response parameters
 		uint16_t	txOperation	:	1;			// I->R operation if the flag is set
 		uint16_t	dataStage	:	1;			// operation has data stage if the flag is set
 		uint16_t	typeOfVoid	:	2;			// 0 - NULL, 1 - PTPReadParser/PTPDataSupplyer, 2 - WRITEPARSER, 3 - buffer pointer
-		uint16_t	dataSize	:	8;			// size of data buffer (Set from 64 to 256 bytes maximum for bigger CHDK buffers: Sandro Benigno)		
+		uint16_t	dataSize	:	6;			// size of data buffer
 	};
+#endif //CHDK_EXTRA_MAX_RX_BUFFER
+
 	typedef void (*READPARSER)(const uint16_t len, const uint8_t *pbuf, const uint32_t &offset);
 
 	void FillEPRecords(USB_ENDPOINT_DESCRIPTOR *pep);

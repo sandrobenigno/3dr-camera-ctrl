@@ -454,11 +454,12 @@ uint16_t PTP::Transaction(uint16_t opcode, OperFlags *flags, uint32_t *params = 
 
 		while (1)
 		{
+
 			ZerroMemory(PTP_MAX_RX_BUFFER_LEN, data);
 
 			uint16_t	read = PTP_MAX_RX_BUFFER_LEN;
 			rcode = pUsb->inTransfer(devAddress, epInfo[epDataInIndex].epAddr, &read, data);
-
+      
 			if (rcode)
 			{
 				PTPTRACE("Fatal USB Error\r\n");
@@ -472,6 +473,10 @@ uint16_t PTP::Transaction(uint16_t opcode, OperFlags *flags, uint32_t *params = 
 			if ((!loops || total == data_off) && *((uint16_t*)(data + PTP_CONTAINER_CONTYPE_OFF)) == PTP_USB_CONTAINER_RESPONSE)
 			{
 				uint16_t	response = *((uint16_t*)(data + PTP_CONTAINER_OPCODE_OFF));
+
+/*E_Notify(PSTR("RSP: "),0x80);
+E_Notify(response,0x80);
+E_Notify(PSTR("\r\n"),0x80);*/
 
 				if (response == PTP_RC_OK && *((uint32_t*)data) > PTP_USB_BULK_HDR_LEN)
 				{
@@ -495,6 +500,9 @@ uint16_t PTP::Transaction(uint16_t opcode, OperFlags *flags, uint32_t *params = 
 			if (loops == 0)
 			{
 				total		=	*((uint32_t*)data);
+/*E_Notify(PSTR("TOT: "),0x80);
+E_Notify(total,0x80);
+E_Notify(PSTR("\r\n"),0x80);*/
 				inbuffer	=	(total < PTP_MAX_RX_BUFFER_LEN) ? (uint8_t)total : PTP_MAX_RX_BUFFER_LEN;
 			}
 			else

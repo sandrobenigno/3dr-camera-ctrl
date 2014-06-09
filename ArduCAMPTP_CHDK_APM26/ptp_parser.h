@@ -1,6 +1,6 @@
 #ifndef __PTP_PARSER_H__
 #define __PTP_PARSER_H__
-
+/*
 #include <inttypes.h>
 #include <avr/pgmspace.h>
 #include <parsetools.h>
@@ -19,6 +19,5 @@ public:
   uint32_t prevBuf[17];
   uint32_t* varBuffer;
 };
-
-
+*/
 #endif // __PTP_PARSER_H__

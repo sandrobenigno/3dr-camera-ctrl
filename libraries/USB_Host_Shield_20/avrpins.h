@@ -17,21 +17,22 @@ e-mail   :  support@circuitsathome.com
 
 /* derived from Konstantin Chizhov's AVR port templates */
 
-#ifndef _avrpins_h_
+#if !defined(_usb_h_) || defined(_avrpins_h_)
+#error "Never include avrpins.h directly; include Usb.h instead"
+#else
 #define _avrpins_h_
 
-#if defined(__AVR_ATmega2560__)
-/* Uncomment the following if you have Arduino Mega ADK board with MAX3421e built-in */
+#if defined(__AVR__)
+
+// pointers are 16 bits on AVR
+#define pgm_read_pointer(p) pgm_read_word(p)
+
+// Support for these boards needs to be manually activated in settings.h or in a makefile
+#if !defined(BOARD_MEGA_ADK) && defined(__AVR_ATmega2560__) && (USE_UHS_MEGA_ADK || defined(ARDUINO_AVR_ADK))
 #define BOARD_MEGA_ADK
+#elif !defined(BOARD_BLACK_WIDDOW) && USE_UHS_BLACK_WIDDOW
+#define BOARD_BLACK_WIDDOW
 #endif
-
-/* Uncomment the following if you are using a Teensy 2.0 */
-//#define BOARD_TEENSY
-
-/* Uncomment the following if you are using a Sanguino */
-//#define BOARD_SANGUINO
-
-#include <avr/io.h>
 
 #ifdef PORTA
 #define USE_PORTA
@@ -217,7 +218,7 @@ public:
         }
 
         static uint8_t IsSet() {
-                return PORT::PinRead() & (uint8_t) (1 << PIN);
+                return PORT::PinRead() & (uint8_t)(1 << PIN);
         }
 
         static void WaiteForSet() {
@@ -449,15 +450,14 @@ public:
 
 /* Arduino pin definitions  */
 #if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
-
-//  "Mega" Arduino pin numbers
+// "Mega" Arduino pin numbers
 
 #define P0  Pe0
 #define P1  Pe1
 #define P2  Pe4
 #define P3  Pe5
 #define P4  Pg5
-#define P5  Pe5
+#define P5  Pe3
 #define P6  Ph3
 #define P7  Ph4
 
@@ -510,12 +510,16 @@ public:
 #define P51 Pb2
 #define P52 Pb1
 #define P53 Pb0
+
+#ifdef BOARD_MEGA_ADK // These pins are not broken out on the Arduino ADK
 #define P54 Pe6 // INT on Arduino ADK
+#define P55 Pj2 // MAX_RESET on Arduino ADK
+#endif
 
-#endif  // "Mega" pin numbers
+// "Mega" pin numbers
 
-#if  defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__)
-//"Classic" Arduino pin numbers
+#elif defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__)
+// "Classic" Arduino pin numbers
 
 #define P0  Pd0
 #define P1  Pd1
@@ -540,9 +544,39 @@ public:
 #define P18  Pc4
 #define P19  Pc5
 
-#endif // "Classic" Arduino pin numbers
+// "Classic" Arduino pin numbers
 
-#if !defined(BOARD_TEENSY) && defined(__AVR_ATmega32U4__) 
+#elif defined(CORE_TEENSY) && defined(__AVR_ATmega32U4__)
+// Teensy 2.0 pin numbers
+// http://www.pjrc.com/teensy/pinout.html
+#define P0  Pb0
+#define P1  Pb1
+#define P2  Pb2
+#define P3  Pb3
+#define P4  Pb7
+#define P5  Pd0
+#define P6  Pd1
+#define P7  Pd2
+#define P8  Pd3
+#define P9  Pc6
+#define P10 Pc7
+#define P11 Pd6
+#define P12 Pd7
+#define P13 Pb4
+#define P14 Pb5
+#define P15 Pb6
+#define P16 Pf7
+#define P17 Pf6
+#define P18 Pf5
+#define P19 Pf4
+#define P20 Pf1
+#define P21 Pf0
+#define P22 Pd4
+#define P23 Pd5
+#define P24 Pe6
+// Teensy 2.0
+
+#elif defined(__AVR_ATmega32U4__)
 // Arduino Leonardo pin numbers
 
 #define P0  Pd2 // D0 - PD2
@@ -580,40 +614,10 @@ public:
 #define P28 Pb6 // D28 / D10 - A10 - PB6
 #define P29 Pd6 // D29 / D12 - A11 - PD6
 
-#endif // Arduino Leonardo pin numbers
+// Arduino Leonardo pin numbers
 
-#if defined(BOARD_TEENSY) && defined(__AVR_ATmega32U4__) 
-// Teensy 2.0 pin numbers
-// http://www.pjrc.com/teensy/pinout.html
-#define P0  Pb0
-#define P1  Pb1
-#define P2  Pb2
-#define P3  Pb3
-#define P4  Pb7
-#define P5  Pd0
-#define P6  Pd1
-#define P7  Pd2
-#define P8  Pd3
-#define P9  Pc6
-#define P10 Pc7
-#define P11 Pd6
-#define P12 Pd7
-#define P13 Pb4
-#define P14 Pb5
-#define P15 Pb6
-#define P16 Pf7
-#define P17 Pf6
-#define P18 Pf5
-#define P19 Pf4
-#define P20 Pf1
-#define P21 Pf0
-#define P22 Pd4
-#define P23 Pd5
-#define P24 Pe6
-#endif // Teensy 2.0
-
-#if defined(__AVR_AT90USB646__) || defined(__AVR_AT90USB1286__)
-// Teensy++ 2.0 pin numbers
+#elif defined(CORE_TEENSY) && (defined(__AVR_AT90USB646__) || defined(__AVR_AT90USB1286__))
+// Teensy++ 1.0 and 2.0 pin numbers
 // http://www.pjrc.com/teensy/pinout.html
 #define P0  Pd0
 #define P1  Pd1
@@ -661,10 +665,9 @@ public:
 #define P43 Pf5
 #define P44 Pf6
 #define P45 Pf7
-#endif // Teensy++ 2.0
+// Teensy++ 1.0 and 2.0
 
-#if !defined(BOARD_SANGUINO) && (defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__))
-#define BOARD_BALANDUINO
+#elif defined(ARDUINO_AVR_BALANDUINO) && (defined(__AVR_ATmega644__) || defined(__AVR_ATmega1284P__))
 // Balanduino pin numbers
 // http://balanduino.net/
 #define P0  Pd0 /* 0  - PD0 */
@@ -680,8 +683,8 @@ public:
 #define P10 Pa3 /* 10 - PA3 */
 #define P11 Pa4 /* 11 - PA4 */
 #define P12 Pa5 /* 12 - PA5 */
-#define P13 Pc0 /* 13 - PC0 */
-#define P14 Pc1 /* 14 - PC1 */
+#define P13 Pc1 /* 13 - PC1 */
+#define P14 Pc0 /* 14 - PC0 */
 #define P15 Pd2 /* 15 - PD2 */
 #define P16 Pd3 /* 16 - PD3 */
 #define P17 Pd4 /* 17 - PD4 */
@@ -699,11 +702,12 @@ public:
 #define P29 Pb7 /* 29 - PB7 */
 #define P30 Pa6 /* 30 - PA6 */
 #define P31 Pa7 /* 31 - PA7 */
-#endif // Balanduino  
+// Balanduino
 
-#if defined(BOARD_SANGUINO) && (defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__))
+#elif defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__) || defined(__AVR_ATmega1284__) || defined(__AVR_ATmega1284P__)
 // Sanguino pin numbers
-// http://sanguino.cc/hardware
+// Homepage: http://sanguino.cc/hardware
+// Hardware add-on: https://github.com/Lauszus/Sanguino
 #define P0  Pb0
 #define P1  Pb1
 #define P2  Pb2
@@ -736,6 +740,140 @@ public:
 #define P29 Pa5
 #define P30 Pa6
 #define P31 Pa7
-#endif // Sanguino
+// Sanguino
+
+#else
+#error "Please define board in avrpins.h"
+
+#endif // Arduino pin definitions
+
+#endif // __AVR__
+
+#if defined(__arm__)
+
+// pointers are 32 bits on ARM
+#define pgm_read_pointer(p) pgm_read_dword(p)
+
+#if defined(CORE_TEENSY) && (defined(__MK20DX128__) || defined(__MK20DX256__))
+
+#include "core_pins.h"
+#include "avr_emulation.h"
+
+#define GPIO_BITBAND_ADDR(reg, bit) (((uint32_t)&(reg) - 0x40000000) * 32 + (bit) * 4 + 0x42000000)
+#define GPIO_BITBAND_PTR(reg, bit) ((uint8_t *)GPIO_BITBAND_ADDR((reg), (bit)))
+
+#define MAKE_PIN(className, baseReg, pinNum, configReg) \
+class className { \
+public: \
+  static void Set() { \
+    *GPIO_BITBAND_PTR(baseReg, pinNum) = 1; \
+  } \
+  static void Clear() { \
+    *GPIO_BITBAND_PTR(baseReg, pinNum) = 0; \
+  } \
+  static void SetDirRead() { \
+    configReg = PORT_PCR_SRE | PORT_PCR_DSE | PORT_PCR_MUX(1); \
+    *(GPIO_BITBAND_PTR(baseReg, pinNum) + 640) = 0; \
+  } \
+  static void SetDirWrite() { \
+    configReg = PORT_PCR_SRE | PORT_PCR_DSE | PORT_PCR_MUX(1); \
+    *(GPIO_BITBAND_PTR(baseReg, pinNum) + 640) = 1; \
+  } \
+  static uint8_t IsSet() { \
+    return *(GPIO_BITBAND_PTR(baseReg, pinNum) + 512); \
+  } \
+};
+
+MAKE_PIN(P0, CORE_PIN0_PORTREG, CORE_PIN0_BIT, CORE_PIN0_CONFIG);
+MAKE_PIN(P1, CORE_PIN1_PORTREG, CORE_PIN1_BIT, CORE_PIN1_CONFIG);
+MAKE_PIN(P2, CORE_PIN2_PORTREG, CORE_PIN2_BIT, CORE_PIN2_CONFIG);
+MAKE_PIN(P3, CORE_PIN3_PORTREG, CORE_PIN3_BIT, CORE_PIN3_CONFIG);
+MAKE_PIN(P4, CORE_PIN4_PORTREG, CORE_PIN4_BIT, CORE_PIN4_CONFIG);
+MAKE_PIN(P5, CORE_PIN5_PORTREG, CORE_PIN5_BIT, CORE_PIN5_CONFIG);
+MAKE_PIN(P6, CORE_PIN6_PORTREG, CORE_PIN6_BIT, CORE_PIN6_CONFIG);
+MAKE_PIN(P7, CORE_PIN7_PORTREG, CORE_PIN7_BIT, CORE_PIN7_CONFIG);
+MAKE_PIN(P8, CORE_PIN8_PORTREG, CORE_PIN8_BIT, CORE_PIN8_CONFIG);
+MAKE_PIN(P9, CORE_PIN9_PORTREG, CORE_PIN9_BIT, CORE_PIN9_CONFIG);
+MAKE_PIN(P10, CORE_PIN10_PORTREG, CORE_PIN10_BIT, CORE_PIN10_CONFIG);
+MAKE_PIN(P11, CORE_PIN11_PORTREG, CORE_PIN11_BIT, CORE_PIN11_CONFIG);
+MAKE_PIN(P12, CORE_PIN12_PORTREG, CORE_PIN12_BIT, CORE_PIN12_CONFIG);
+MAKE_PIN(P13, CORE_PIN13_PORTREG, CORE_PIN13_BIT, CORE_PIN13_CONFIG);
+MAKE_PIN(P14, CORE_PIN14_PORTREG, CORE_PIN14_BIT, CORE_PIN14_CONFIG);
+MAKE_PIN(P15, CORE_PIN15_PORTREG, CORE_PIN15_BIT, CORE_PIN15_CONFIG);
+MAKE_PIN(P16, CORE_PIN16_PORTREG, CORE_PIN16_BIT, CORE_PIN16_CONFIG);
+MAKE_PIN(P17, CORE_PIN17_PORTREG, CORE_PIN17_BIT, CORE_PIN17_CONFIG);
+MAKE_PIN(P18, CORE_PIN18_PORTREG, CORE_PIN18_BIT, CORE_PIN18_CONFIG);
+MAKE_PIN(P19, CORE_PIN19_PORTREG, CORE_PIN19_BIT, CORE_PIN19_CONFIG);
+MAKE_PIN(P20, CORE_PIN20_PORTREG, CORE_PIN20_BIT, CORE_PIN20_CONFIG);
+MAKE_PIN(P21, CORE_PIN21_PORTREG, CORE_PIN21_BIT, CORE_PIN21_CONFIG);
+MAKE_PIN(P22, CORE_PIN22_PORTREG, CORE_PIN22_BIT, CORE_PIN22_CONFIG);
+MAKE_PIN(P23, CORE_PIN23_PORTREG, CORE_PIN23_BIT, CORE_PIN23_CONFIG);
+MAKE_PIN(P24, CORE_PIN24_PORTREG, CORE_PIN24_BIT, CORE_PIN24_CONFIG);
+MAKE_PIN(P25, CORE_PIN25_PORTREG, CORE_PIN25_BIT, CORE_PIN25_CONFIG);
+MAKE_PIN(P26, CORE_PIN26_PORTREG, CORE_PIN26_BIT, CORE_PIN26_CONFIG);
+MAKE_PIN(P27, CORE_PIN27_PORTREG, CORE_PIN27_BIT, CORE_PIN27_CONFIG);
+MAKE_PIN(P28, CORE_PIN28_PORTREG, CORE_PIN28_BIT, CORE_PIN28_CONFIG);
+MAKE_PIN(P29, CORE_PIN29_PORTREG, CORE_PIN29_BIT, CORE_PIN29_CONFIG);
+MAKE_PIN(P30, CORE_PIN30_PORTREG, CORE_PIN30_BIT, CORE_PIN30_CONFIG);
+MAKE_PIN(P31, CORE_PIN31_PORTREG, CORE_PIN31_BIT, CORE_PIN31_CONFIG);
+MAKE_PIN(P32, CORE_PIN32_PORTREG, CORE_PIN32_BIT, CORE_PIN32_CONFIG);
+MAKE_PIN(P33, CORE_PIN33_PORTREG, CORE_PIN33_BIT, CORE_PIN33_CONFIG);
+
+#undef MAKE_PIN
+
+#elif defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)
+
+// SetDirRead:
+//   Disable interrupts
+//   Disable the pull up resistor
+//   Set to INPUT
+//   Enable PIO
+
+// SetDirWrite:
+//   Disable interrupts
+//   Disable the pull up resistor
+//   Set to OUTPUT
+//   Enable PIO
+
+#define MAKE_PIN(className, pio, pinMask) \
+class className { \
+public: \
+  static void Set() { \
+    pio->PIO_SODR = pinMask; \
+  } \
+  static void Clear() { \
+    pio->PIO_CODR = pinMask; \
+  } \
+  static void SetDirRead() { \
+    pio->PIO_IDR = pinMask ; \
+    pio->PIO_PUDR = pinMask; \
+    pio->PIO_ODR = pinMask; \
+    pio->PIO_PER = pinMask; \
+  } \
+  static void SetDirWrite() { \
+    pio->PIO_IDR = pinMask ; \
+    pio->PIO_PUDR = pinMask; \
+    pio->PIO_OER = pinMask; \
+    pio->PIO_PER = pinMask; \
+  } \
+  static uint8_t IsSet() { \
+    return pio->PIO_PDSR & pinMask; \
+  } \
+};
+
+MAKE_PIN(P9, PIOC, PIO_PC21); // INT
+MAKE_PIN(P10, PIOC, PIO_PC29); // SS
+MAKE_PIN(P74, PIOA, PIO_PA25); // MISO
+MAKE_PIN(P75, PIOA, PIO_PA26); // MOSI
+MAKE_PIN(P76, PIOA, PIO_PA27); // CLK
+
+#undef MAKE_PIN
+
+#else
+#error "Please define board in avrpins.h"
+
+#endif
+
+#endif // __arm__
 
 #endif //_avrpins_h_

@@ -1,17 +1,9 @@
-#include <avr/pgmspace.h>
-#include <avrpins.h>
-#include <max3421e.h>
-#include <usbhost.h>
-#include <usb_ch9.h>
-#include <Usb.h>
-#include <usbhub.h>
-#include <avr/pgmspace.h>
-#include <address.h>
 #include <hidboot.h>
-#include <printhex.h>
-#include <message.h>
-#include <hexdump.h>
-#include <parsetools.h>
+#include <usbhub.h>
+// Satisfy IDE, which only needs to see the include statment in the ino.
+#ifdef dobogusinclude
+#include <spi4teensy3.h>
+#endif
 
 class MouseRptParser : public MouseReportParser
 {
@@ -24,14 +16,14 @@ protected:
 	virtual void OnMiddleButtonUp	(MOUSEINFO *mi);
 	virtual void OnMiddleButtonDown	(MOUSEINFO *mi);
 };
-void MouseRptParser::OnMouseMove(MOUSEINFO *mi)	
+void MouseRptParser::OnMouseMove(MOUSEINFO *mi)
 {
     Serial.print("dx=");
     Serial.print(mi->dX, DEC);
     Serial.print(" dy=");
     Serial.println(mi->dY, DEC);
 };
-void MouseRptParser::OnLeftButtonUp	(MOUSEINFO *mi)	
+void MouseRptParser::OnLeftButtonUp	(MOUSEINFO *mi)
 {
     Serial.println("L Butt Up");
 };
@@ -67,15 +59,16 @@ MouseRptParser                               Prs;
 void setup()
 {
     Serial.begin( 115200 );
+    while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
     Serial.println("Start");
 
     if (Usb.Init() == -1)
         Serial.println("OSC did not start.");
-      
+
     delay( 200 );
-  
+
     next_time = millis() + 5000;
-  
+
     HidMouse.SetReportParser(0,(HIDReportParser*)&Prs);
 }
 

@@ -20,41 +20,6 @@
 
 #include "BTD.h"
 
-/* Bluetooth L2CAP states for SDP_task() */
-#define L2CAP_SDP_WAIT                  0
-#define L2CAP_SDP_REQUEST               1
-#define L2CAP_SDP_SUCCESS               2
-#define L2CAP_SDP_DONE                  3
-#define L2CAP_DISCONNECT_RESPONSE       4
-
-/* Bluetooth L2CAP states for RFCOMM_task() */
-#define L2CAP_RFCOMM_WAIT               0
-#define L2CAP_RFCOMM_REQUEST            1
-#define L2CAP_RFCOMM_SUCCESS            2
-#define L2CAP_RFCOMM_DONE               3
-
-/* L2CAP event flags */
-#define L2CAP_FLAG_CONNECTION_SDP_REQUEST       0x001
-#define L2CAP_FLAG_CONNECTION_RFCOMM_REQUEST    0x002
-#define L2CAP_FLAG_CONFIG_SDP_REQUEST           0x004
-#define L2CAP_FLAG_CONFIG_RFCOMM_REQUEST        0x008
-#define L2CAP_FLAG_CONFIG_SDP_SUCCESS           0x010
-#define L2CAP_FLAG_CONFIG_RFCOMM_SUCCESS        0x020
-#define L2CAP_FLAG_DISCONNECT_SDP_REQUEST       0x040
-#define L2CAP_FLAG_DISCONNECT_RFCOMM_REQUEST    0x080
-#define L2CAP_FLAG_DISCONNECT_RESPONSE          0x100
-
-/* Macros for L2CAP event flag tests */
-#define l2cap_connection_request_sdp_flag (l2cap_event_flag & L2CAP_FLAG_CONNECTION_SDP_REQUEST)
-#define l2cap_connection_request_rfcomm_flag (l2cap_event_flag & L2CAP_FLAG_CONNECTION_RFCOMM_REQUEST)
-#define l2cap_config_request_sdp_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_SDP_REQUEST)
-#define l2cap_config_request_rfcomm_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_RFCOMM_REQUEST)
-#define l2cap_config_success_sdp_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_SDP_SUCCESS)
-#define l2cap_config_success_rfcomm_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_RFCOMM_SUCCESS)
-#define l2cap_disconnect_request_sdp_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_SDP_REQUEST)
-#define l2cap_disconnect_request_rfcomm_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_RFCOMM_REQUEST)
-#define l2cap_disconnect_response_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_RESPONSE)
-
 /* Used for SDP */
 #define SDP_SERVICE_SEARCH_ATTRIBUTE_REQUEST_PDU    0x06 // See the RFCOMM specs
 #define SDP_SERVICE_SEARCH_ATTRIBUTE_RESPONSE_PDU   0x07 // See the RFCOMM specs
@@ -89,16 +54,19 @@
 #define BT_RFCOMM_NSC_RSP    0x11
  */
 
-/** This BluetoothService class implements the Serial Port Protocol (SPP). */
+/**
+ * This BluetoothService class implements the Serial Port Protocol (SPP).
+ * It inherits the Arduino Stream class. This allows it to use all the standard Arduino print and stream functions.
+ */
 class SPP : public BluetoothService, public Stream {
 public:
         /**
          * Constructor for the SPP class.
          * @param  p   Pointer to BTD class instance.
          * @param  name   Set the name to BTD#btdName. If argument is omitted, then "Arduino" will be used.
-         * @param  pin   Write the pin to BTD#btdPin. If argument is omitted, then "1234" will be used.
+         * @param  pin   Write the pin to BTD#btdPin. If argument is omitted, then "0000" will be used.
          */
-        SPP(BTD *p, const char* name = "Arduino", const char* pin = "1234");
+        SPP(BTD *p, const char *name = "Arduino", const char *pin = "0000");
 
         /**
          * Used to provide Boolean tests for the class.
@@ -130,8 +98,11 @@ public:
          * @return Return the number of bytes ready to be read.
          */
         virtual int available(void);
-        /** Discard all the bytes in the buffer. */
-        virtual void flush(void);
+
+        /** Send out all bytes in the buffer. */
+        virtual void flush(void) {
+                send();
+        };
         /**
          * Used to read the next value in the buffer without advancing to the next one.
          * @return Return the byte. Will return -1 if no bytes are available.
@@ -142,6 +113,8 @@ public:
          * @return Return the byte. Will return -1 if no bytes are available.
          */
         virtual int read(void);
+
+#if defined(ARDUINO) && ARDUINO >=100
         /**
          * Writes the byte to send to a buffer. The message is send when either send() or after Usb.Task() is called.
          * @param  data The byte to write.
@@ -157,6 +130,22 @@ public:
         virtual size_t write(const uint8_t* data, size_t size);
         /** Pull in write(const char *str) from Print */
         using Print::write;
+#else
+        /**
+         * Writes the byte to send to a buffer. The message is send when either send() or after Usb.Task() is called.
+         * @param  data The byte to write.
+         */
+        virtual void write(uint8_t data);
+        /**
+         * Writes the bytes to send to a buffer. The message is send when either send() or after Usb.Task() is called.
+         * @param data The data array to send.
+         * @param size Size of the data.
+         */
+        virtual void write(const uint8_t* data, size_t size);
+#endif
+
+        /** Discard all the bytes in the buffer. */
+        void discard(void);
         /**
          * This will send all the bytes in the buffer.
          * This is called whenever Usb.Task() is called,
@@ -178,7 +167,7 @@ private:
         /* Variables used by L2CAP state machines */
         uint8_t l2cap_sdp_state;
         uint8_t l2cap_rfcomm_state;
-        uint16_t l2cap_event_flag; // l2cap flags of received Bluetooth events
+        uint32_t l2cap_event_flag; // l2cap flags of received Bluetooth events
 
         uint8_t l2capoutbuf[BULK_MAXPKTSIZE]; // General purpose buffer for l2cap out data
         uint8_t rfcommbuf[10]; // Buffer for RFCOMM Commands
@@ -215,7 +204,7 @@ private:
         void RFCOMM_task(); // RFCOMM state machine
 
         /* SDP Commands */
-        void SDP_Command(uint8_t* data, uint8_t nbytes);
+        void SDP_Command(uint8_t *data, uint8_t nbytes);
         void serviceNotSupported(uint8_t transactionIDHigh, uint8_t transactionIDLow);
         void serialPortResponse1(uint8_t transactionIDHigh, uint8_t transactionIDLow);
         void serialPortResponse2(uint8_t transactionIDHigh, uint8_t transactionIDLow);
@@ -223,10 +212,11 @@ private:
         void l2capResponse2(uint8_t transactionIDHigh, uint8_t transactionIDLow);
 
         /* RFCOMM Commands */
-        void RFCOMM_Command(uint8_t* data, uint8_t nbytes);
-        void sendRfcomm(uint8_t channel, uint8_t direction, uint8_t CR, uint8_t channelType, uint8_t pfBit, uint8_t* data, uint8_t length);
+        void RFCOMM_Command(uint8_t *data, uint8_t nbytes);
+        void sendRfcomm(uint8_t channel, uint8_t direction, uint8_t CR, uint8_t channelType, uint8_t pfBit, uint8_t *data, uint8_t length);
         void sendRfcommCredit(uint8_t channel, uint8_t direction, uint8_t CR, uint8_t channelType, uint8_t pfBit, uint8_t credit);
         uint8_t calcFcs(uint8_t *data);
-        uint8_t __crc(uint8_t* data);
+        bool checkFcs(uint8_t *data, uint8_t fcs);
+        uint8_t crc(uint8_t *data);
 };
 #endif
