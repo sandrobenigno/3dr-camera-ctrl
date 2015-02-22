@@ -15,7 +15,7 @@ Author(s): Sandro Benigno
 
 Note: The PTP library used here was modified by the author.
       There are special characteristics needed to cover the scripting approach.
-      The CHDK PTP Transaction has a wider RX buffer (reflected as well on the dataSize flag).
+      The CHDK PTP Transaction has a wider RX buffer (reflected on the dataSize flag).
 </pre>
 
 This program is free software: you can redistribute it and/or modify
