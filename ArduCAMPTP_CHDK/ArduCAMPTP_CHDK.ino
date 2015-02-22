@@ -1,15 +1,18 @@
 /*
-ArduCam OSD - The Arduino based Remote Camera Control and OSD.
+ArduCam PTP CHDK - Arduino based Remote CHDK Camera Control.
 Copyright (c) 2011.  All rights reserved.
-An Open Source Arduino based OSD and Camera Control project.
+This firmware is part of the ArduCAM OSD Project: an open source Arduino based OSD and Camera Control.
 
-Code : ArduCamPTP_CHDK
-Version : v0.96, 12 feb 2014
+Code : ArduCamPTP_CHDK Beta
 
 Author(s): Sandro Benigno
                   Legacy PTP commands from Canon's PS-ReCSDK 1.1.0e
-                  Custom PTP commands from CHDK's PTP implementation
+                  Custom extended PTP commands from CHDK's PTP implementation
                   USB host and PTP library from Oleg Mazurov - circuitsathome.com
+
+Note: The PTP library used here was modified by the author.
+      There are special characteristics needed to cover the scripting approach.
+      The CHDK PTP Transaction has a wider RX buffer (reflected as well on the dataSize flag).
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
