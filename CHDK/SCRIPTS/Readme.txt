@@ -1,7 +1,19 @@
 GeoShooting base-code for Camera Control over CHDK PTP
 This code is part of ArduCAMPTP_CHDK's implementetion for 3DRobotics.
 
-Licenced by Sandro Benigno under CC 3.0 BY-SA
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 Project page: https://github.com/sandrobenigno/3dr-camera-ctrl
 
 This script receives arguments in a packet of PTP Transaction:
