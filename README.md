@@ -1,6 +1,8 @@
 3dr-camera-ctrl
 ===============
 
+<p><img src="images/Persp_sml.jpg"></p>
+
 3DR Camera Control Board with USB Host
 
 ArduCam PTP CHDK - Arduino based Remote CHDK Camera Control.
