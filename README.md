@@ -6,7 +6,6 @@
 3DR Camera Control Board with USB Host
 
 ArduCam PTP CHDK - Arduino based Remote CHDK Camera Control.
-Copyright (c) 2011.  All rights reserved.
 This firmware is part of the ArduCAM OSD Project: an open source Arduino based OSD and Camera Control.
 
 <pre>
