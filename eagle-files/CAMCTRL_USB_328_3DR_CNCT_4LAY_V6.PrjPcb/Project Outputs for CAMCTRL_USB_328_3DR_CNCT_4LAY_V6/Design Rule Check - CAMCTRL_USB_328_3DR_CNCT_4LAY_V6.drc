@@ -1,0 +1,72 @@
+Protel Design System Design Rule Check
+PCB File : F:\Current_Work\00_0_git\3dr-camera-ctrl\eagle-files\Imported CAMCTRL_USB_328_3DR_CNCT_4LAY_V6.PrjPcb\CAMCTRL_USB_328_3DR_CNCT_4LAY_V6.PcbDoc
+Date     : 26/07/2015
+Time     : 1:36:57 PM
+
+Processing Rule : Clearance Constraint (Gap=0.1mm) (InNet('D_N')),(InNet('D_P'))
+Rule Violations :0
+
+Processing Rule : Short-Circuit Constraint (Allowed=No) (All),(All)
+Rule Violations :0
+
+Processing Rule : Un-Routed Net Constraint ( (All) )
+Rule Violations :0
+
+Processing Rule : Power Plane Connect Rule(Relief Connect )(Expansion=0.508mm) (Conductor Width=0.254mm) (Air Gap=0.254mm) (Entries=4) (All)
+Rule Violations :0
+
+Processing Rule : Width Constraint (Min=0.254mm) (Max=0.254mm) (Preferred=0.254mm) (All)
+Rule Violations :0
+
+Processing Rule : Height Constraint (Min=0mm) (Max=25.4mm) (Prefered=12.7mm) (All)
+Rule Violations :0
+
+Processing Rule : Hole Size Constraint (Min=0.025mm) (Max=2.54mm) (All)
+Rule Violations :0
+
+Processing Rule : Hole To Hole Clearance (Gap=0.254mm) (All),(All)
+Rule Violations :0
+
+Processing Rule : Minimum Solder Mask Sliver (Gap=0.254mm) (Disabled)(All),(All)
+Rule Violations :0
+
+Processing Rule : Silk To Solder Mask (Clearance=0.254mm) (Disabled)(IsPad),(All)
+Rule Violations :0
+
+Processing Rule : Silk to Silk (Clearance=0.254mm) (Disabled)(All),(All)
+Rule Violations :0
+
+Processing Rule : Silk primitive without silk layer
+Rule Violations :0
+
+Processing Rule : Net Antennae (Tolerance=0mm) (All)
+   Violation between Net Antennae: Via (61.595mm,58.42mm) Top to Bottom
+   Violation between Net Antennae: Track (48.26mm,55.88mm)(48.285mm,56.896mm)  Bottom
+   Violation between Net Antennae: Track (49.53mm,56.896mm)(49.53mm,57.531mm)  Bottom
+   Violation between Net Antennae: Track (62.23mm,56.896mm)(62.23mm,58.42mm)  Bottom
+   Violation between Net Antennae: Track (59.461mm,57.15mm)(59.741mm,56.896mm)  Bottom
+   Violation between Net Antennae: Track (60.985mm,55.88mm)(60.985mm,56.896mm)  Bottom
+   Violation between Net Antennae: Track (60.96mm,53.34mm)(60.96mm,54.229mm)  Bottom
+   Violation between Net Antennae: Track (73.076mm,55.931mm)(73.076mm,57.048mm)  Bottom
+   Violation between Net Antennae: Track (35.941mm,50.419mm)(36.195mm,50.673mm)  Bottom
+   Violation between Net Antennae: Track (33.909mm,51.816mm)(33.934mm,50.419mm)  Bottom
+Rule Violations :10
+
+Processing Rule : Modified Polygon (Allow modified: No), (Allow shelved: No)
+Rule Violations :0
+
+Processing Rule : Width Constraint (Min=0.152mm) (Max=2540mm) (Preferred=0.254mm) (All)
+Rule Violations :0
+
+Processing Rule : Hole Size Constraint (Min=0.254mm) (Max=2540mm) (All)
+Rule Violations :0
+
+Processing Rule : Hole To Hole Clearance (Gap=0.203mm) (All),(All)
+Rule Violations :0
+
+Processing Rule : Clearance Constraint (Gap=0.15mm) (All),(All)
+Rule Violations :0
+
+
+Violations Detected : 10
+Time Elapsed        : 00:00:01
