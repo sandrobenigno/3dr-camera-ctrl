@@ -1,0 +1,117 @@
+Importer Log Report
+Project : CAMCTRL_USB_328_3DR_CNCT_4LAY_V6.PrjPcb
+
+Section : Analyze Document - F:\Current_Work\00_0_git\3dr-camera-ctrl\eagle-files\CAMCTRL_USB_328_3DR_CNCT_4LAY_V6.brd
+    Analyzing data of F:\Current_Work\00_0_git\3dr-camera-ctrl\eagle-files\CAMCTRL_USB_328_3DR_CNCT_4LAY_V6.brd
+    Load settings
+    Load layers 120
+    Load Library "SparkFun-DigitalIC"
+    Load Packages 2
+    Load Library "SparkFun-Connectors"
+    Load Packages 3
+    Load Library "SparkFun-FreqCtrl"
+    Load Packages 2
+    Load Library "SparkFun-Passives"
+    Load Packages 2
+    Load Library "SparkFun"
+    Load Packages 5
+    Load Library "SparkFun-DiscreteSemi"
+    Load Packages 1
+    Load Library "optocoupler"
+    Load Packages 1
+    Load Library "adafruit"
+    Load Packages 1
+    Load Library "pixhawk2"
+    Load Packages 4
+    Load Library "pel_dipol_comp"
+    Load Packages 4
+    Load Library "3DRobotics"
+    Load Packages 2
+    Load Library "zetex"
+    Load Packages 1
+    Load Library "Texas Instruments_By_element14_Batch_1"
+    Load Packages 1
+    Load Library "con-hirose-df13"
+    Load Packages 2
+    ERROR: Unhandled typeerrors
+EndSection
+
+Section : Analyze Document - F:\Current_Work\00_0_git\3dr-camera-ctrl\eagle-files\CAMCTRL_USB_328_3DR_CNCT_4LAY_V6.sch
+    Analyzing data of F:\Current_Work\00_0_git\3dr-camera-ctrl\eagle-files\CAMCTRL_USB_328_3DR_CNCT_4LAY_V6.sch
+    Load settings
+    Load layers 120
+    Load schematic
+    Load Libraries 17
+    Load Library "SparkFun-DigitalIC"
+    Load Packages 3
+    Load Symbols 2
+    Load DeviceSets 2
+    Load Library "SparkFun-Connectors"
+    Load Packages 41
+    Load Symbols 3
+    Load DeviceSets 3
+    Load Library "SparkFun-FreqCtrl"
+    Load Packages 13
+    Load Symbols 2
+    Load DeviceSets 2
+    Load Library "SparkFun-Passives"
+    Load Packages 9
+    Load Symbols 2
+    Load DeviceSets 2
+    Load Library "supply1"
+    Load Packages 0
+    Load Symbols 2
+    Load DeviceSets 2
+    Load Library "SparkFun"
+    Load Packages 22
+    Load Symbols 8
+    Load DeviceSets 8
+    Load Library "SparkFun-DiscreteSemi"
+    Load Packages 2
+    Load Symbols 1
+    Load DeviceSets 1
+    Load Library "SparkFun-Aesthetics"
+    Load Packages 0
+    Load Symbols 1
+    Load DeviceSets 1
+    Load Library "optocoupler"
+    Load Packages 1
+    Load Symbols 1
+    Load DeviceSets 1
+    Load Library "adafruit"
+    Load Packages 1
+    Load Symbols 1
+    Load DeviceSets 1
+    Load Library "pixhawk2"
+    Load Packages 5
+    Load Symbols 5
+    Load DeviceSets 4
+    Load Library "3DRobotics"
+    Load Packages 2
+    Load Symbols 2
+    Load DeviceSets 2
+    Load Library "pel_dipol_comp"
+    Load Packages 16
+    Load Symbols 5
+    Load DeviceSets 5
+    Load Library "zetex"
+    Load Packages 2
+    Load Symbols 1
+    Load DeviceSets 1
+    Load Library "Texas Instruments_By_element14_Batch_1"
+    Load Packages 1
+    Load Symbols 1
+    Load DeviceSets 1
+    Load Library "frames"
+    Load Packages 0
+    Load Symbols 2
+    Load DeviceSets 1
+    Load Library "con-hirose-df13"
+    Load Packages 8
+    Load Symbols 2
+    Load DeviceSets 2
+    Load Attributes 0
+    Load Classes 1
+    Load Parts 126
+    Load Sheets 1
+EndSection
